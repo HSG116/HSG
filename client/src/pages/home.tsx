@@ -11,7 +11,7 @@ import i18n from "@/lib/i18n";
 
 export default function Home() {
   return (
-    <div className="min-h-screen font-cairo" dir={i18n.language.startsWith("ar") ? "rtl" : "ltr"}>
+    <div className={`min-h-screen ${i18n.language.startsWith("ar") ? "font-cairo" : "font-outfit tracking-tight"}`} dir={i18n.language.startsWith("ar") ? "rtl" : "ltr"}>
       <StarsBackground />
       <Header />
       <main>

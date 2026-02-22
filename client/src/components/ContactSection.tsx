@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Send, Sparkles, Loader2, Phone, Mail, Clock } from "lucide-react";
 
 export default function ContactSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -103,8 +103,8 @@ export default function ContactSection() {
     <section id="contact" className="relative py-24 px-4 overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute inset-0 bg-grid-white/[0.02] -z-10" />
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className={`absolute top-0 ${i18n.language === 'ar' ? 'right-1/4' : 'left-1/4'} w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none`} />
+      <div className={`absolute bottom-0 ${i18n.language === 'ar' ? 'left-1/4' : 'right-1/4'} w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none`} />
 
       <div className="container mx-auto relative z-10 max-w-6xl">
         <motion.div
@@ -130,7 +130,7 @@ export default function ContactSection() {
         <div className="grid lg:grid-cols-5 gap-8 items-start">
           {/* Visual Side & Contact Info */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: i18n.language === 'ar' ? 20 : -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-2 space-y-6"
@@ -179,7 +179,7 @@ export default function ContactSection() {
 
           {/* Form Side */}
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: i18n.language === 'ar' ? -20 : 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-3"

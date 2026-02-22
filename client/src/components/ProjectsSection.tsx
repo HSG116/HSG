@@ -64,8 +64,8 @@ export default function ProjectsSection() {
     >
       {/* Premium Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-b from-gray-950/50 to-black/80 pointer-events-none" />
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] -z-10" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] -z-10" />
+      <div className={`absolute top-0 ${i18n.language === 'ar' ? 'right-0' : 'left-0'} w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] -z-10`} />
+      <div className={`absolute bottom-0 ${i18n.language === 'ar' ? 'left-0' : 'right-0'} w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] -z-10`} />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <motion.div
@@ -84,7 +84,7 @@ export default function ProjectsSection() {
               data-testid="skip-section"
             >
               {t("projects.skip")}
-              <i className="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i>
+              <i className={`fas fa-arrow-${i18n.language === 'ar' ? 'left' : 'right'} transition-transform ${i18n.language === 'ar' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`}></i>
             </button>
           </div>
           <div className="w-24 h-1.5 bg-gradient-to-l from-blue-600 to-purple-600 mx-auto mb-8 rounded-full" />

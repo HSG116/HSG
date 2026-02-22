@@ -80,6 +80,14 @@ export default function Header() {
               <span className="relative z-10">{i18n.language === "ar" ? "English" : "العربية"}</span>
             </button>
 
+            <button
+              onClick={() => handleNavClick("#home")}
+              className={`flex items-center gap-3 group transition-transform hover:scale-105 ${i18n.language === 'ar' ? 'order-first' : 'order-first'}`}
+            >
+              <img src={logoLight} alt="HSG" className="h-8 md:h-10 w-auto brightness-110 contrast-125" />
+              <span className="text-white font-bold text-xl tracking-tighter hidden sm:block">HSG</span>
+            </button>
+
             <nav className="hidden md:flex items-center gap-1">
               {NAV_LINKS.map((link) => (
                 <button
@@ -134,11 +142,11 @@ export default function Header() {
         <div className="relative h-full flex flex-col">
           {/* Header Section with Logo */}
           <div className="flex items-center justify-between p-6 border-b border-white/10">
-            <div className="flex items-center gap-3">
+            <div className={`flex items-center gap-3 ${i18n.language === 'ar' ? 'flex-row' : 'flex-row-reverse'}`}>
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center shadow-lg shadow-blue-500/30">
                 <i className="fas fa-bars text-white text-lg"></i>
               </div>
-              <div>
+              <div className={i18n.language === 'ar' ? 'text-right' : 'text-left'}>
                 <h3 className="text-white font-bold text-lg">{t("nav.menu")}</h3>
                 <p className="text-gray-400 text-xs">Menu</p>
               </div>
