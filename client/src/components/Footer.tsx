@@ -8,11 +8,9 @@ export default function Footer() {
 
   return (
     <footer
-      className="py-12 border-t border-white/5 relative z-50"
+      className="py-12 relative z-50"
       data-testid="footer"
     >
-      {/* Glow Line at Top */}
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/30 to-transparent" />
 
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
