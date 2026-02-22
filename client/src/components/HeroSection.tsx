@@ -75,10 +75,6 @@ export default function HeroSection() {
               {/* Massive background glow */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-blue-600/20 blur-[100px] rounded-full group-hover:bg-blue-600/30 transition-colors duration-1000" />
 
-              {/* Glowing circles */}
-              <div className="absolute inset-x-[-20%] inset-y-[-20%] border border-blue-500/20 rounded-full animate-[spin_20s_linear_infinite]" />
-              <div className="absolute inset-x-[-40%] inset-y-[-40%] border border-purple-500/10 rounded-full animate-[spin_30s_linear_infinite_reverse]" />
-
               <div className="relative p-4 transition-all duration-500">
                 <img
                   src={logoDark}
