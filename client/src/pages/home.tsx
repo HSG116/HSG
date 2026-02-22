@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import SectionDivider from "@/components/SectionDivider";
 import StarsBackground from "@/components/StarsBackground";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
@@ -23,6 +24,7 @@ export default function Home() {
         <HeroSection />
         <ServicesSection />
         <ProjectsSection />
+        <SectionDivider />
         <AboutSection />
         <ContactSection />
       </main>
