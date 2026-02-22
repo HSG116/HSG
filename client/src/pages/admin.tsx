@@ -241,7 +241,7 @@ export default function AdminPage() {
     }
 
     return (
-        <div className="min-h-screen bg-[#050505] text-white flex flex-col md:flex-row font-cairo" dir="rtl">
+        <div className="min-h-screen bg-[#050505] text-white flex flex-col md:flex-row font-outfit" dir="ltr">
             {/* Sidebar Command Bar */}
             <aside className="w-full md:w-80 bg-black/40 border-l border-white/5 backdrop-blur-xl z-50 p-6 md:sticky md:top-0 md:h-screen flex flex-col">
                 <div className="flex items-center gap-4 mb-10 px-2">

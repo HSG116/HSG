@@ -1,14 +1,9 @@
 import { useTranslation } from "react-i18next";
 
 export default function AboutSection() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
-  const cvLinks = {
-    ar: "/CV-ar.pdf",
-    en: "/CV-en.pdf",
-  };
-
-  const cvUrl = i18n.language.startsWith("ar") ? cvLinks.ar : cvLinks.en;
+  const cvUrl = "/CV-en.pdf";
 
   return (
     <section
@@ -83,16 +78,11 @@ export default function AboutSection() {
                 <i className="fas fa-external-link-alt"></i>
                 <span>{t("about.download_cv")}</span>
               </a>
-              <p className="text-sm text-muted-foreground text-center">
-                {i18n.language.startsWith("ar")
-                  ? "متوفر أيضاً نسخة باللغة الإنجليزية - تحويل اللغة أعلى الصفحة"
-                  : "Also available in Arabic - Change language at the top of the page"}
-              </p>
             </div>
 
             <div className="space-y-6">
               <div>
-                <h4 className="text-primary font-bold mb-4 text-lg">{t("about.technologies_title")}</h4>
+                <h4 className="text-primary font-bold mb-4 text-lg text-center">{t("about.technologies_title")}</h4>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {[
                     { name: "HTML", icon: "fab fa-html5" },

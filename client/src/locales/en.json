@@ -9,6 +9,7 @@
     "sidebar_footer": "Professional Design & Development"
   },
   "hero": {
+    "title": "HSG Studio",
     "subtitle": "Front-end developer and web designer. I create fast, beautiful, and responsive digital experiences.",
     "description1": "I started my journey with passion, and today I've completed over 25 websites with diverse ideas and technologies.",
     "description2": "I help you turn your idea into reality — with professionalism and excellence.",
@@ -16,24 +17,14 @@
     "cta_contact": "Contact Me"
   },
   "services": {
-    "title": "Services",
-    "subtitle": "I offer a range of specialized services in web development and professional design.\nFrom luxury website design to advanced interface development, I help you build a strong digital presence.",
-    "web_design": "Professional Website Design & Development",
-    "web_design_desc": "I design and develop professional websites that reflect your identity and achieve your goals with modern and premium style.",
-    "maintenance": "Website Redesign & Maintenance",
-    "maintenance_desc": "I help you update your old site, add new features, or maintain it regularly.",
-    "features_title": "What Do We Offer?",
-    "feature1": "Elegant and modern integrated design",
-    "feature2": "100% responsive on all screens",
-    "feature3": "Fast loading and smooth user experience",
-    "feature4": "Full support for both Arabic and English",
-    "feature5": "Organized and attractive pages",
-    "feature6": "High security and professional SEO",
-    "feature7": "Update old designs",
-    "feature8": "Add new features and improvements",
-    "feature9": "Fix errors and issues",
-    "feature10": "Monthly support and maintenance",
-    "feature11": "Performance and SEO optimization"
+    "title": "Core Capabilities",
+    "subtitle": "Engineering robust digital solutions. Leveraging cutting-edge technologies to build scalable, high-performance systems.",
+    "workflows": "Intelligent Workflows",
+    "workflows_desc": "Automated sequence routing dynamically connecting your systems.",
+    "data_processing": "Data Processing",
+    "data_processing_desc": "Telemetry from active AI parsing digital environments seamlessly.",
+    "integration": "Seamless Integration",
+    "integration_desc": "Schedule protocols with zero friction across your entire ecosystem."
   },
   "projects": {
     "title": "Featured Projects",

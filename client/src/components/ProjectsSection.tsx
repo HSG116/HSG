@@ -8,7 +8,7 @@ import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProjectsSection() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [dbProjects, setDbProjects] = useState<Project[]>([]);
@@ -19,15 +19,15 @@ export default function ProjectsSection() {
       if (data) {
         const mappedProjects: Project[] = data.map((p: any) => ({
           id: p.id,
-          title: p.name_ar,
-          titleEn: p.name_en, // Attempt to get English name from DB
+          title: p.name_en || p.name_ar,
+          titleEn: p.name_en,
           category: p.category || "web",
           categoryKey: p.category || "web",
           imageUrl: p.image_url || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop",
-          description: p.description_ar,
-          descriptionEn: p.description_en, // Attempt to get English description from DB
-          longDescription: p.description_ar,
-          longDescriptionEn: p.description_en, // Attempt to get English description from DB
+          description: p.description_en || p.description_ar,
+          descriptionEn: p.description_en,
+          longDescription: p.description_en || p.description_ar,
+          longDescriptionEn: p.description_en,
           technologies: p.technologies || ["Web"],
           demoLink: p.url || "#"
         })) as any;
@@ -59,91 +59,119 @@ export default function ProjectsSection() {
   return (
     <section
       id="projects"
-      className="py-24 md:py-32 relative overflow-visible"
+      className="py-24 md:py-32 relative overflow-hidden"
       data-testid="projects-section"
     >
-      {/* Premium Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950/50 to-black/80 pointer-events-none" />
-      <div className={`absolute top-0 ${i18n.language === 'ar' ? 'right-0' : 'left-0'} w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] -z-10`} />
-      <div className={`absolute bottom-0 ${i18n.language === 'ar' ? 'left-0' : 'right-0'} w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] -z-10`} />
+      {/* Background Ambience removed for a monolithic seamless look */}
+      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none -z-10" />
+      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <motion.div
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, type: "spring" }}
+          className="text-center mb-16 md:mb-24 flex flex-col items-center"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-sm font-mono mb-8 shadow-[0_0_20px_rgba(99,102,241,0.15)] backdrop-blur-md"
+          >
+            <i className="fas fa-layer-group"></i>
+            <span className="tracking-widest font-bold">PORTFOLIO_ARCHIVE</span>
+          </motion.div>
+
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 tracking-tight drop-shadow-sm flex items-center justify-center gap-4">
+            {t("projects.title")}
+          </h2>
+
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+            <p className="text-gray-400 max-w-2xl mx-auto text-lg md:text-xl font-light leading-relaxed">
+              {t("projects.subtitle")}
+            </p>
+          </div>
+
+          <button
+            onClick={handleScrollToAbout}
+            className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-white transition-all duration-300 flex items-center gap-2 px-6 py-2 rounded-full border border-white/5 hover:border-white/20 bg-white/5 backdrop-blur-md group"
+          >
+            {t("projects.skip")}
+            <i className="fas fa-arrow-down transition-transform group-hover:translate-y-1"></i>
+          </button>
+        </motion.div>
+
+        {/* Filter Categories - Apple-like Pills */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 pb-2 inline-block">
-              {t("projects.title")}
-            </h2>
-            <button
-              onClick={handleScrollToAbout}
-              className="text-sm text-gray-400 hover:text-white transition-all duration-300 flex items-center gap-2 px-5 py-2 rounded-full border border-white/10 hover:border-blue-500/50 hover:bg-white/5 backdrop-blur-sm group"
-              data-testid="skip-section"
-            >
-              {t("projects.skip")}
-              <i className={`fas fa-arrow-${i18n.language === 'ar' ? 'left' : 'right'} transition-transform ${i18n.language === 'ar' ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`}></i>
-            </button>
-          </div>
-          <div className="w-24 h-1.5 bg-gradient-to-l from-blue-600 to-purple-600 mx-auto mb-8 rounded-full" />
-          <p className="text-gray-300 max-w-2xl mx-auto text-xl leading-relaxed font-light">
-            {t("projects.subtitle")}
-          </p>
-        </motion.div>
-
-        {/* Filter Categories */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
+          className="flex flex-wrap justify-center gap-3 mb-16"
         >
-          {CATEGORIES.map((category) => (
-            <button
-              key={category.key}
-              onClick={() => setActiveFilter(category.key)}
-              className={`flex items-center gap-3 px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 backdrop-blur-md border ${activeFilter === category.key
-                ? "bg-blue-600/20 border-blue-500 text-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.2)]"
-                : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:text-white hover:border-white/20"
-                }`}
-            >
-              <i className={`${category.icon} opacity-80 text-lg`}></i>
-              <span>{t(`projects.${category.key}`) || category.label}</span>
-              <span className={`px-2 py-0.5 rounded-full text-xs font-bold ${activeFilter === category.key ? "bg-blue-500/20 text-blue-300" : "bg-white/10 text-gray-500"
-                }`}>
-                {getCategoryCount(category.key)}
-              </span>
-            </button>
-          ))}
+          <div className="flex flex-wrap justify-center p-1.5 bg-white/5 backdrop-blur-2xl border border-white/10 rounded-3xl">
+            {CATEGORIES.map((category) => {
+              const isActive = activeFilter === category.key;
+              return (
+                <button
+                  key={category.key}
+                  onClick={() => setActiveFilter(category.key)}
+                  className={`relative flex items-center gap-1.5 md:gap-2 px-3 md:px-6 py-2 md:py-3 rounded-full text-[10px] md:text-sm font-bold transition-all duration-500 ${isActive ? "text-white" : "text-gray-400 hover:text-white"
+                    }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="active-pill"
+                      className="absolute inset-0 bg-white/10 border border-white/20 rounded-full shadow-[0_0_15px_rgba(255,255,255,0.05)]"
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <i className={`${category.icon} opacity-80`}></i>
+                    <span>{t(`projects.${category.key}`) || category.label}</span>
+                    {isActive && (
+                      <span className="px-1.5 py-0.5 rounded-full bg-white text-black text-[9px] leading-none flex items-center justify-center">
+                        {getCategoryCount(category.key)}
+                      </span>
+                    )}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </motion.div>
 
-        <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <motion.div layout className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-10">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((originalProject) => {
+            {filteredProjects.map((originalProject, index) => {
               const project = {
                 ...originalProject,
-                title: (i18n.language === 'en' && originalProject.titleEn) ? originalProject.titleEn : originalProject.title,
-                description: (i18n.language === 'en' && originalProject.descriptionEn) ? originalProject.descriptionEn : originalProject.description,
-                longDescription: (i18n.language === 'en' && originalProject.longDescriptionEn) ? originalProject.longDescriptionEn : originalProject.longDescription,
+                title: originalProject.titleEn || originalProject.title,
+                description: originalProject.descriptionEn || originalProject.description,
+                longDescription: originalProject.longDescriptionEn || originalProject.longDescription,
                 category: t(`projects.${originalProject.categoryKey}`) || originalProject.category
               };
               return (
                 <motion.div
                   layout
                   key={project.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, scale: 0.8, y: 40 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: -40 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 25,
+                    delay: index * 0.05 // Stagger effect
+                  }}
                 >
-                  <div className="h-full bg-white/5 backdrop-blur-sm border border-white/5 rounded-2xl overflow-hidden hover:border-blue-500/30 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1">
-                    <ProjectCard
-                      project={project}
-                      onClick={() => setSelectedProject(project)}
-                    />
-                  </div>
+                  <ProjectCard
+                    project={project}
+                    onClick={() => setSelectedProject(project)}
+                  />
                 </motion.div>
               );
             })}
@@ -152,14 +180,14 @@ export default function ProjectsSection() {
 
         {filteredProjects.length === 0 && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-20"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-center py-32 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-[3rem] bg-white/[0.02] backdrop-blur-sm"
           >
-            <div className="w-20 h-20 bg-gray-800/50 rounded-full flex items-center justify-center mx-auto mb-6">
-              <i className="fas fa-folder-open text-4xl text-gray-600"></i>
+            <div className="w-24 h-24 bg-white/5 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+              <i className="fas fa-folder-open text-4xl text-gray-500"></i>
             </div>
-            <p className="text-gray-500 text-lg">لا توجد مشاريع في هذه الفئة حالياً</p>
+            <p className="text-gray-400 text-lg font-mono">NO_PROJECTS_FOUND</p>
           </motion.div>
         )}
       </div>

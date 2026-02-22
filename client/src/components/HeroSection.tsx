@@ -4,8 +4,7 @@ import { motion } from "framer-motion";
 import { Code, Palette } from "lucide-react";
 
 export default function HeroSection() {
-  const { t, i18n } = useTranslation();
-  const isAr = i18n.language === "ar";
+  const { t } = useTranslation();
 
   const handleScrollTo = (id: string) => {
     const element = document.querySelector(id);
@@ -14,10 +13,6 @@ export default function HeroSection() {
     }
   };
 
-  // Arabic:  text RIGHT, logo LEFT  → flex-row-reverse (RTL)
-  // English: text LEFT,  logo RIGHT → flex-row (LTR)
-  // Since the page uses dir="rtl/ltr" from the parent, flex-row behaves correctly
-  // but we'll force the order explicitly for clarity:
   const textBlock = (
     <div className="flex-1 text-center lg:text-start space-y-8">
       <motion.div
@@ -26,7 +21,7 @@ export default function HeroSection() {
         transition={{ duration: 0.8 }}
       >
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4">
-          <span className="gradient-text">{t("hero.title") || "فخام ديزاين"}</span>
+          <span className="gradient-text">{t("hero.title") || "Fakhama Design"}</span>
         </h1>
         <p className="text-xl md:text-2xl text-blue-400 font-medium mb-6">
           {t("hero.subtitle")}
@@ -57,7 +52,7 @@ export default function HeroSection() {
           onClick={() => handleScrollTo("#contact")}
           className="flex items-center gap-3 px-8 py-4 bg-transparent text-white rounded-full font-bold transition-all duration-300 hover:bg-white/5 border-2 border-white/20 hover:border-white/40 group"
         >
-          <i className={`fas fa-paper-plane transition-transform group-hover:-translate-y-1 ${isAr ? "group-hover:-translate-x-1" : "group-hover:translate-x-1"}`}></i>
+          <i className="fas fa-paper-plane transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"></i>
           <span>{t("hero.cta_contact")}</span>
         </button>
       </motion.div>
@@ -83,11 +78,11 @@ export default function HeroSection() {
           />
         </div>
 
-        {/* Floaties — mirrored per language */}
-        <div className={`absolute -top-4 ${isAr ? "-right-4" : "-left-4"} w-12 h-12 flex items-center justify-center text-blue-400 animate-bounce [animation-duration:3s]`}>
+        {/* Floaties */}
+        <div className="absolute -top-4 -left-4 w-12 h-12 flex items-center justify-center text-blue-400 animate-bounce [animation-duration:3s]">
           <Code className="w-6 h-6" />
         </div>
-        <div className={`absolute -bottom-6 ${isAr ? "-left-6" : "-right-6"} w-14 h-14 flex items-center justify-center text-purple-400 animate-bounce [animation-duration:4s]`}>
+        <div className="absolute -bottom-6 -right-6 w-14 h-14 flex items-center justify-center text-purple-400 animate-bounce [animation-duration:4s]">
           <Palette className="w-7 h-7" />
         </div>
       </div>
@@ -101,30 +96,16 @@ export default function HeroSection() {
       data-testid="hero-section"
     >
       <div className="container mx-auto px-4 md:px-8 relative z-10">
-        {/*
-          Arabic  (RTL): Logo on LEFT → text on RIGHT  [logo | text]
-          English (LTR): Logo on RIGHT → text on LEFT  [text | logo]
-          We achieve this by conditional ordering since RTL flips flex.
-        */}
         <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 lg:gap-16">
-          {isAr ? (
-            <>
-              {textBlock}
-              {logoBlock}
-            </>
-          ) : (
-            <>
-              {textBlock}
-              {logoBlock}
-            </>
-          )}
+          {textBlock}
+          {logoBlock}
         </div>
       </div>
 
-      {/* Background patterns — mirrored */}
+      {/* Background patterns */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className={`absolute top-0 ${isAr ? "right-0" : "left-0"} w-[500px] h-[500px] bg-blue-500/10 blur-[120px] rounded-full`} />
-        <div className={`absolute bottom-0 ${isAr ? "left-0" : "right-0"} w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full`} />
+        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full" />
       </div>
 
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2">

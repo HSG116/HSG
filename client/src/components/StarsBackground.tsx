@@ -76,6 +76,14 @@ export default function StarsBackground() {
       }}
       data-testid="stars-background"
     >
+      {/* طبقة غامقة فخمة مأخوذة من قسم About Me موضوعة بالخلف لكي لا تغطي على النجوم */}
+      {/* تم تغيير اللون إلى bg-black/60 ليصبح المكان أغمق (أظلم) ويعطي مساحة أكبر لبروز النجوم */}
+      <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+
+      {/* إضاءات خافتة زرقاء مأخوذة من About Me تعطي فخامة للتصميم */}
+      <div className="absolute top-1/4 left-1/4 w-[600px] h-[300px] bg-blue-900/10 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[300px] bg-blue-900/10 blur-[100px] rounded-full pointer-events-none" />
+
       {stars.map((star) => (
         <div
           key={star.id}
@@ -85,6 +93,7 @@ export default function StarsBackground() {
             top: `${star.y}%`,
             animation: `twinkle ${star.duration}s ease-in-out infinite`,
             animationDelay: `${star.delay}s`,
+            zIndex: 1, // تأكيد ظهور النجوم بالأمام
           }}
         />
       ))}
@@ -100,6 +109,7 @@ export default function StarsBackground() {
             animation: `shooting ${star.duration}s ease-out infinite`,
             animationDelay: `${star.delay}s`,
             transform: `rotate(${Math.random() * 20 - 10}deg)`,
+            zIndex: 1, // تأكيد ظهور الشهب بالأمام
           }}
         />
       ))}
