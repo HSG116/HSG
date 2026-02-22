@@ -76,7 +76,7 @@ export default function AdminPage() {
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        const adminPass = import.meta.env.VITE_ACCESS_KEY;
+        const adminPass = import.meta.env.VITE_APP_ENTRY;
         if (passwordInput === adminPass) {
             setIsAuthenticated(true);
             toast({
