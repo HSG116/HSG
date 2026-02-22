@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { NAV_LINKS } from "@/data/services";
-import logoLight from "@assets/9709798_1764355143195.png";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -10,6 +9,7 @@ export default function Header() {
   const [activeSection, setActiveSection] = useState("home");
   const [isLangSwitching, setIsLangSwitching] = useState(false);
   const { i18n, t } = useTranslation();
+  const isAr = i18n.language === "ar";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,59 +43,64 @@ export default function Header() {
 
   const toggleLanguage = () => {
     setIsLangSwitching(true);
-
-    // Wait for the exit animation to start covering the screen
     setTimeout(() => {
       const newLang = i18n.language === "ar" ? "en" : "ar";
       i18n.changeLanguage(newLang);
       document.documentElement.dir = newLang === "ar" ? "rtl" : "ltr";
       document.documentElement.lang = newLang;
-
-      // Allow animation to complete before removing overlay
-      setTimeout(() => {
-        setIsLangSwitching(false);
-      }, 800);
+      setTimeout(() => setIsLangSwitching(false), 800);
     }, 600);
   };
+
+  const langButton = (
+    <button
+      onClick={toggleLanguage}
+      className="group flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 hover:from-blue-500 hover:via-blue-400 hover:to-blue-600 text-white rounded-full font-semibold text-sm transition-all duration-500 hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105 relative overflow-hidden"
+      data-testid="language-toggle"
+      title={isAr ? "Switch to English" : "التبديل إلى العربية"}
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+      <i className={`fas ${isAr ? "fa-globe" : "fa-language"} relative z-10`}></i>
+      <span className="relative z-10">{isAr ? "English" : "العربية"}</span>
+    </button>
+  );
+
+  const mobileToggle = (
+    <button
+      className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-secondary text-foreground"
+      onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      data-testid="mobile-menu-toggle"
+    >
+      <i className={`fas ${isMobileMenuOpen ? "fa-times" : "fa-bars"} text-lg`}></i>
+    </button>
+  );
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-          ? "bg-background/80 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
-          : "bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/80 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]" : "bg-transparent"
           }`}
         data-testid="header"
       >
         <div className="container mx-auto px-4 md:px-8">
+          {/* 
+            Arabic  (RTL): [LangBtn] [NAV links] [MobileToggle]
+            English (LTR): [MobileToggle] [NAV links] [LangBtn]
+          */}
           <div className="flex items-center justify-between h-16 md:h-20">
-            <button
-              onClick={toggleLanguage}
-              className="group flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-blue-600 via-blue-500 to-blue-700 hover:from-blue-500 hover:via-blue-400 hover:to-blue-600 text-white rounded-full font-semibold text-sm transition-all duration-500 hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105 relative overflow-hidden"
-              data-testid="language-toggle"
-              title={i18n.language === "ar" ? "Switch to English" : "التبديل إلى العربية"}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
-              <i className={`fas ${i18n.language === "ar" ? "fa-globe" : "fa-language"} relative z-10`}></i>
-              <span className="relative z-10">{i18n.language === "ar" ? "English" : "العربية"}</span>
-            </button>
 
-            <button
-              onClick={() => handleNavClick("#home")}
-              className={`flex items-center gap-3 group transition-transform hover:scale-105 ${i18n.language === 'ar' ? 'order-first' : 'order-first'}`}
-            >
-              <img src={logoLight} alt="HSG" className="h-8 md:h-10 w-auto brightness-110 contrast-125" />
-              <span className="text-white font-bold text-xl tracking-tighter hidden sm:block">HSG</span>
-            </button>
+            {/* Left side */}
+            {isAr ? langButton : mobileToggle}
 
+            {/* Center NAV — desktop only */}
             <nav className="hidden md:flex items-center gap-1">
               {NAV_LINKS.map((link) => (
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
                   className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeSection === link.href.slice(1)
-                    ? "bg-primary text-primary-foreground"
-                    : "text-foreground/80 hover:text-foreground hover:bg-secondary"
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground/80 hover:text-foreground hover:bg-secondary"
                     }`}
                   data-testid={`nav-link-${link.href.slice(1)}`}
                 >
@@ -105,48 +110,39 @@ export default function Header() {
               ))}
             </nav>
 
-            <button
-              className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-secondary text-foreground"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              data-testid="mobile-menu-toggle"
-            >
-              <i className={`fas ${isMobileMenuOpen ? "fa-times" : "fa-bars"} text-lg`}></i>
-            </button>
+            {/* Right side */}
+            {isAr ? mobileToggle : langButton}
           </div>
         </div>
       </header>
 
-      {/* Premium Backdrop Overlay */}
+      {/* Mobile backdrop */}
       <div
         className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden transition-all duration-500 ${isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         onClick={() => setIsMobileMenuOpen(false)}
       />
 
-      {/* Luxurious Side Drawer Menu */}
+      {/* Side Drawer — slides from right for Arabic, left for English */}
       <div
-        className={`fixed top-0 ${i18n.language === "ar" ? "right-0" : "left-0"} h-full w-80 max-w-[85vw] z-50 md:hidden transition-transform duration-500 ease-out ${isMobileMenuOpen
-          ? "translate-x-0"
-          : i18n.language === "ar" ? "translate-x-full" : "-translate-x-full"
+        className={`fixed top-0 ${isAr ? "right-0" : "left-0"} h-full w-80 max-w-[85vw] z-50 md:hidden transition-transform duration-500 ease-out ${isMobileMenuOpen ? "translate-x-0" : isAr ? "translate-x-full" : "-translate-x-full"
           }`}
         data-testid="mobile-menu"
       >
-        {/* Gradient Background with Glass Effect */}
+        {/* Gradient BG */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-950 backdrop-blur-2xl border-l border-white/10">
-          {/* Animated Gradient Orbs */}
-          <div className="absolute top-20 -left-20 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-40 -right-20 w-60 h-60 bg-purple-600/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }}></div>
+          <div className="absolute top-20 -left-20 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-40 -right-20 w-60 h-60 bg-purple-600/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
         </div>
 
-        {/* Content Container */}
         <div className="relative h-full flex flex-col">
-          {/* Header Section with Logo */}
+          {/* Drawer header */}
           <div className="flex items-center justify-between p-6 border-b border-white/10">
-            <div className={`flex items-center gap-3 ${i18n.language === 'ar' ? 'flex-row' : 'flex-row-reverse'}`}>
+            <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center shadow-lg shadow-blue-500/30">
                 <i className="fas fa-bars text-white text-lg"></i>
               </div>
-              <div className={i18n.language === 'ar' ? 'text-right' : 'text-left'}>
+              <div className={isAr ? "text-right" : "text-left"}>
                 <h3 className="text-white font-bold text-lg">{t("nav.menu")}</h3>
                 <p className="text-gray-400 text-xs">Menu</p>
               </div>
@@ -159,83 +155,67 @@ export default function Header() {
             </button>
           </div>
 
-          {/* Navigation Links */}
+          {/* Nav links */}
           <nav className="flex-1 overflow-y-auto p-6 space-y-2">
             {NAV_LINKS.map((link, index) => (
               <button
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
                 className={`group relative w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-base font-medium transition-all duration-300 overflow-hidden ${activeSection === link.href.slice(1)
-                  ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30 scale-105"
-                  : "text-gray-300 hover:text-white hover:bg-white/5 hover:scale-105"
+                    ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30 scale-105"
+                    : "text-gray-300 hover:text-white hover:bg-white/5 hover:scale-105"
                   }`}
                 style={{
                   animationDelay: `${index * 100}ms`,
-                  animation: isMobileMenuOpen ? "slideInRight 0.5s ease-out forwards" : "none"
+                  animation: isMobileMenuOpen ? "slideInDrawer 0.5s ease-out forwards" : "none",
                 }}
                 data-testid={`mobile-nav-link-${link.href.slice(1)}`}
               >
-                {/* Animated Background Gradient */}
                 {activeSection !== link.href.slice(1) && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/10 to-blue-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/10 to-blue-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 )}
 
-                {/* Icon Container */}
-                <div className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ${activeSection === link.href.slice(1)
-                  ? "bg-white/20 shadow-inner"
-                  : "bg-white/5 group-hover:bg-white/10"
+                <div className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ${activeSection === link.href.slice(1) ? "bg-white/20 shadow-inner" : "bg-white/5 group-hover:bg-white/10"
                   }`}>
                   <i className={`${link.icon} text-lg relative z-10`}></i>
                   {activeSection === link.href.slice(1) && (
-                    <div className="absolute inset-0 bg-white/10 rounded-xl animate-ping"></div>
+                    <div className="absolute inset-0 bg-white/10 rounded-xl animate-ping" />
                   )}
                 </div>
 
-                {/* Text */}
                 <span className="relative z-10 flex-1 text-start">{t(`nav.${link.key || link.href.slice(1)}`)}</span>
 
-                {/* Arrow Indicator */}
-                <i className={`fas fa-chevron-${i18n.language === "ar" ? "left" : "right"} text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 ${activeSection === link.href.slice(1) ? "opacity-100" : ""
+                <i className={`fas fa-chevron-${isAr ? "left" : "right"} text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 ${activeSection === link.href.slice(1) ? "opacity-100" : ""
                   }`}></i>
 
-                {/* Active Indicator */}
                 {activeSection === link.href.slice(1) && (
-                  <div className={`absolute ${i18n.language === "ar" ? "right-0" : "left-0"} top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-full shadow-lg shadow-white/50`}></div>
+                  <div className={`absolute ${isAr ? "right-0" : "left-0"} top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-full shadow-lg shadow-white/50`} />
                 )}
               </button>
             ))}
           </nav>
 
-          {/* Footer Section */}
+          {/* Drawer footer */}
           <div className="p-6 border-t border-white/10">
             <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-2xl p-4 backdrop-blur-xl">
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50"></div>
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50" />
                 <p className="text-white text-sm font-semibold">HSG Portfolio</p>
               </div>
-              <p className="text-gray-400 text-xs leading-relaxed">
-                {t("nav.sidebar_footer")}
-              </p>
+              <p className="text-gray-400 text-xs leading-relaxed">{t("nav.sidebar_footer")}</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Keyframe Animation */}
       <style>{`
-        @keyframes slideInRight {
-          from {
-            opacity: 0;
-            transform: translateX(${i18n.language === "ar" ? "20px" : "-20px"});
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+        @keyframes slideInDrawer {
+          from { opacity: 0; transform: translateX(${isAr ? "20px" : "-20px"}); }
+          to   { opacity: 1; transform: translateX(0); }
         }
       `}</style>
 
-      {/* Language Switching Overlay */}
+      {/* Language Switch Overlay */}
       <AnimatePresence>
         {isLangSwitching && (
           <motion.div
@@ -245,10 +225,7 @@ export default function Header() {
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-3xl"
           >
-            <div className="relative flex flex-col items-center">
-              {/* Background Particles/Orbs */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-full blur-[120px] animate-pulse" />
-            </div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-full blur-[120px] animate-pulse" />
           </motion.div>
         )}
       </AnimatePresence>
