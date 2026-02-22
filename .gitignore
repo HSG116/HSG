@@ -9,6 +9,8 @@ dist/
 .env
 .env.local
 .env.production
+client/.env
+client/.env.local
 
 # Editor directories
 .vscode/

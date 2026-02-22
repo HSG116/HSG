@@ -16,7 +16,7 @@ export default function HeroSection() {
   return (
     <section
       id="home"
-      className="min-h-[90vh] flex items-center justify-center pt-24 pb-16 relative overflow-hidden"
+      className="min-h-[90vh] flex items-center justify-center pt-24 pb-16 relative"
       data-testid="hero-section"
     >
       <div className="container mx-auto px-4 md:px-8 relative z-10">
@@ -84,10 +84,10 @@ export default function HeroSection() {
               </div>
 
               {/* Floaties */}
-              <div className="absolute -top-4 -right-4 w-12 h-12 glass rounded-2xl flex items-center justify-center text-blue-400 font-bold animate-bounce [animation-duration:3s]">
+              <div className="absolute -top-4 -right-4 w-12 h-12 flex items-center justify-center text-blue-400 font-bold animate-bounce [animation-duration:3s]">
                 <Code className="w-6 h-6" />
               </div>
-              <div className="absolute -bottom-6 -left-6 w-14 h-14 glass rounded-2xl flex items-center justify-center text-purple-400 font-bold animate-bounce [animation-duration:4s]">
+              <div className="absolute -bottom-6 -left-6 w-14 h-14 flex items-center justify-center text-purple-400 font-bold animate-bounce [animation-duration:4s]">
                 <Palette className="w-7 h-7" />
               </div>
             </div>
@@ -112,6 +112,7 @@ export default function HeroSection() {
           <div className="w-1 h-12 bg-gradient-to-b from-blue-500 to-transparent rounded-full" />
         </motion.button>
       </div>
+      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#020617] to-transparent pointer-events-none z-20" />
     </section>
   );
 }
