@@ -79,7 +79,7 @@ export default function HeroSection() {
               <div className="absolute inset-x-[-20%] inset-y-[-20%] border border-blue-500/20 rounded-full animate-[spin_20s_linear_infinite]" />
               <div className="absolute inset-x-[-40%] inset-y-[-40%] border border-purple-500/10 rounded-full animate-[spin_30s_linear_infinite_reverse]" />
 
-              <div className="relative glass p-4 rounded-3xl group-hover:shadow-[0_0_50px_rgba(59,130,246,0.3)] transition-all duration-500">
+              <div className="relative p-4 transition-all duration-500">
                 <img
                   src={logoDark}
                   alt="HSG Logo"
