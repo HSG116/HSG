@@ -169,30 +169,6 @@ export default function ProjectsSection() {
         isOpen={!!selectedProject}
         onClose={() => setSelectedProject(null)}
       />
-
-      {/* Luxurious Fusion Divider */}
-      <div className="absolute bottom-0 left-0 w-full z-20 pointer-events-none">
-        {/* Gradient Fade to Black/Transparent */}
-        <div className="h-32 bg-gradient-to-t from-black via-black/80 to-transparent" />
-
-        {/* Decorative Line & Glow */}
-        <div className="absolute bottom-0 left-0 w-full flex flex-col items-center justify-end">
-          <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
-          <div className="hidden md:block absolute -bottom-6 w-[600px] h-[100px] bg-blue-600/20 blur-[60px] rounded-full pointer-events-none" />
-
-          {/* Center Geometric Element */}
-          <div className="absolute bottom-0 translate-y-1/2 flex items-center justify-center pointer-events-auto">
-            <div className="relative w-12 h-12 md:w-16 md:h-16 bg-black border border-blue-500/30 rotate-45 transform hover:scale-110 transition-transform duration-500 shadow-[0_0_30px_rgba(37,99,235,0.3)] backdrop-blur-xl flex items-center justify-center group overflow-hidden">
-              <div className="absolute inset-0 bg-blue-600/10 group-hover:bg-blue-600/20 transition-colors" />
-              <i className="fas fa-chevron-down text-blue-400 -rotate-45 animate-bounce mt-1"></i>
-            </div>
-
-            {/* Side Ornaments */}
-            <div className="absolute left-[-60px] top-1/2 w-12 h-[1px] bg-gradient-to-r from-transparent to-blue-500/50" />
-            <div className="absolute right-[-60px] top-1/2 w-12 h-[1px] bg-gradient-to-l from-transparent to-blue-500/50" />
-          </div>
-        </div>
-      </div>
     </section>
   );
 }

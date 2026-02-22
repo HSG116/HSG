@@ -16,8 +16,6 @@ export default function AboutSection() {
       className="py-24 md:py-36 relative overflow-visible"
       data-testid="about-section"
     >
-      {/* Top Blend from Previous Section */}
-      <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-black via-black/80 to-transparent pointer-events-none z-0" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[800px] h-[150px] bg-blue-900/10 blur-[80px] rounded-full pointer-events-none z-0" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
@@ -118,20 +116,6 @@ export default function AboutSection() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Luxurious Particle Divider to Contact */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] z-20 translate-y-[1px]">
-        <div className="relative w-full h-[120px]">
-          {/* Gradient Fade */}
-          <div className="absolute top-0 w-full h-full bg-gradient-to-b from-transparent to-background/90" />
-
-          <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path className="fill-background/80" d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
-          </svg>
-          {/* Glowing Line */}
-          <div className="absolute bottom-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500/40 to-transparent blur-[2px]"></div>
         </div>
       </div>
     </section>

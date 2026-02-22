@@ -100,7 +100,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="relative py-24 px-4 overflow-hidden bg-gradient-to-b from-background to-black/20">
+    <section id="contact" className="relative py-24 px-4 overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute inset-0 bg-grid-white/[0.02] -z-10" />
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
@@ -270,8 +270,6 @@ export default function ContactSection() {
         </div>
       </div>
 
-      {/* Seamless Gradient Fade to Footer */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-0" />
     </section>
   );
 }

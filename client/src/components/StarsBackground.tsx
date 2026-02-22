@@ -69,10 +69,10 @@ export default function StarsBackground() {
   };
 
   return (
-    <div 
+    <div
       className="fixed inset-0 -z-10 overflow-hidden"
       style={{
-        background: "radial-gradient(ellipse at bottom, #0d1423 0%, #060a14 100%)",
+        backgroundColor: "#020617",
       }}
       data-testid="stars-background"
     >
@@ -88,7 +88,7 @@ export default function StarsBackground() {
           }}
         />
       ))}
-      
+
       {shootingStars.map((star) => (
         <div
           key={`shooting-${star.id}`}

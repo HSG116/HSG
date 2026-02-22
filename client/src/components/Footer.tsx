@@ -8,7 +8,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="py-8 bg-gradient-to-t from-black to-black/80 backdrop-blur-xl relative z-50 mt-[-20px]"
+      className="py-12 border-t border-white/5 relative z-50"
       data-testid="footer"
     >
       {/* Glow Line at Top */}

@@ -109,10 +109,8 @@ export default function HeroSection() {
           className="flex flex-col items-center gap-2 text-gray-500 hover:text-white transition-colors"
         >
           <span className="text-xs uppercase tracking-widest font-bold">Scroll</span>
-          <div className="w-1 h-12 bg-gradient-to-b from-blue-500 to-transparent rounded-full" />
         </motion.button>
       </div>
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#020617] to-transparent pointer-events-none z-20" />
     </section>
   );
 }
