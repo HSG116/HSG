@@ -15,7 +15,7 @@ export default function ProjectsSection() {
 
   useEffect(() => {
     const fetchDbProjects = async () => {
-      const { data } = await supabase.from('site_projects').select('*');
+      const { data } = await supabase.from('site_projects').select('*').order('id', { ascending: false });
       if (data) {
         const mappedProjects: Project[] = data.map((p: any) => ({
           id: p.id,
@@ -37,7 +37,7 @@ export default function ProjectsSection() {
     fetchDbProjects();
   }, []);
 
-  const allProjects = useMemo(() => [...PROJECTS, ...dbProjects], [dbProjects]);
+  const allProjects = useMemo(() => [...dbProjects, ...PROJECTS.map(p => ({ ...p }))], [dbProjects]);
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === "all") return allProjects;

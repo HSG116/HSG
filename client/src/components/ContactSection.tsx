@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
@@ -16,40 +16,38 @@ export default function ContactSection() {
     description: "",
   });
 
-  const contactItems = [
-    {
-      icon: "fab fa-tiktok",
-      label: "TikTok",
-      href: "https://tiktok.com/@hsg-new",
-      color: "text-pink-500",
-      bg: "bg-pink-500/10",
-      border: "border-pink-500/20"
-    },
-    {
-      icon: "fab fa-youtube",
-      label: "YouTube",
-      href: "https://youtube.com/@hsgmohammed",
-      color: "text-red-500",
-      bg: "bg-red-500/10",
-      border: "border-red-500/20"
-    },
-    {
-      icon: "fab fa-whatsapp",
-      label: "WhatsApp",
-      href: "https://wa.me/972592311460",
-      color: "text-green-500",
-      bg: "bg-green-500/10",
-      border: "border-green-500/20"
-    },
-    {
-      icon: "fas fa-envelope",
-      label: "Email",
-      href: "mailto:hsg.mohammed1@gmail.com",
-      color: "text-blue-500",
-      bg: "bg-blue-500/10",
-      border: "border-blue-500/20"
-    },
-  ];
+  const [socialLinks, setSocialLinks] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchSocialLinks = async () => {
+      const { data } = await supabase.from('social_links').select('*').eq('is_active', true).order('id', { ascending: true });
+      if (data) {
+        const mappedLinks = data.slice(0, 4).map(link => {
+          switch (link.platform) {
+            case 'tiktok': return { id: link.id, platform: link.platform, icon: "fab fa-tiktok", label: "TikTok", href: link.url, color: "text-pink-500", bg: "bg-pink-500/10", border: "border-pink-500/20" };
+            case 'instagram': return { id: link.id, platform: link.platform, icon: "fab fa-instagram", label: "Instagram", href: link.url, color: "text-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/20" };
+            case 'facebook': return { id: link.id, platform: link.platform, icon: "fab fa-facebook-f", label: "Facebook", href: link.url, color: "text-blue-600", bg: "bg-blue-600/10", border: "border-blue-600/20" };
+            case 'youtube': return { id: link.id, platform: link.platform, icon: "fab fa-youtube", label: "YouTube", href: link.url, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20" };
+            case 'whatsapp': return { id: link.id, platform: link.platform, icon: "fab fa-whatsapp", label: "WhatsApp", href: !!link.url && !link.url.startsWith('http') && link.url.match(/^[0-9+]+$/) ? `https://wa.me/${link.url.replace(/\+/g, '')}` : link.url.includes('@') ? link.url : link.url.startsWith('http') ? link.url : `https://wa.me/${link.url}`, color: "text-green-500", bg: "bg-green-500/10", border: "border-green-500/20" };
+            case 'email': return { id: link.id, platform: link.platform, icon: "fas fa-envelope", label: "Email", href: link.url.includes('@') && !link.url.startsWith('mailto:') ? `mailto:${link.url}` : link.url, color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20" };
+            default: return { id: link.id, platform: link.platform, icon: "fas fa-link", label: link.platform, href: link.url, color: "text-gray-400", bg: "bg-gray-400/10", border: "border-gray-400/20" };
+          }
+        });
+
+        // الترتيب لضمان وجود الواتساب والإيميل في النهاية دائماً
+        mappedLinks.sort((a, b) => {
+          const isAContact = a.platform === 'whatsapp' || a.platform === 'email';
+          const isBContact = b.platform === 'whatsapp' || b.platform === 'email';
+          if (isAContact && !isBContact) return 1;
+          if (!isAContact && isBContact) return -1;
+          return 0;
+        });
+
+        setSocialLinks(mappedLinks);
+      }
+    };
+    fetchSocialLinks();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -160,9 +158,9 @@ export default function ContactSection() {
 
             {/* Social Links Grid */}
             <div className="grid grid-cols-2 gap-3">
-              {contactItems.map((item, index) => (
+              {socialLinks.map((item) => (
                 <a
-                  key={item.label}
+                  key={item.id}
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"

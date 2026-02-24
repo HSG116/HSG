@@ -9,6 +9,7 @@ import {
     Settings, Search, RefreshCw, Layers
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link as LinkIcon, Share2, CheckCircle2, Circle } from "lucide-react";
 
 interface Message {
     id: number;
@@ -17,6 +18,13 @@ interface Message {
     project_type: string;
     message: string;
     created_at: string;
+}
+
+interface SocialLink {
+    id: number;
+    platform: string;
+    url: string;
+    is_active: boolean;
 }
 
 interface Project {
@@ -35,11 +43,12 @@ interface Project {
 export default function AdminPage() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [passwordInput, setPasswordInput] = useState("");
-    const [activeTab, setActiveTab] = useState<'messages' | 'projects' | 'analytics'>('messages');
+    const [activeTab, setActiveTab] = useState<'messages' | 'projects' | 'analytics' | 'social'>('messages');
 
     // Data States
     const [messages, setMessages] = useState<Message[]>([]);
     const [projects, setProjects] = useState<Project[]>([]);
+    const [socialLinks, setSocialLinks] = useState<SocialLink[]>([]);
     const [loading, setLoading] = useState(true);
     const [stats, setStats] = useState({ totalMessages: 0, totalProjects: 0, lastActivity: "" });
 
@@ -50,13 +59,11 @@ export default function AdminPage() {
 
     // Form State
     const [newProject, setNewProject] = useState({
-        name_ar: "",
         name_en: "",
-        description_ar: "",
         description_en: "",
         url: "",
         image_url: "",
-        category: "general",
+        category: "web",
         tech1: "",
         tech2: "",
         tech3: ""
@@ -70,7 +77,7 @@ export default function AdminPage() {
 
     const fetchData = async () => {
         setLoading(true);
-        await Promise.all([fetchMessages(), fetchProjects()]);
+        await Promise.all([fetchMessages(), fetchProjects(), fetchSocialLinks()]);
         setLoading(false);
     };
 
@@ -120,8 +127,47 @@ export default function AdminPage() {
             setStats(prev => ({ ...prev, totalProjects: data?.length || 0 }));
         } catch (error: any) {
             console.error('Error fetching projects:', error);
-        } finally {
-            // setLoading(false); // This is now handled by fetchData
+        }
+    };
+
+    const fetchSocialLinks = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('social_links')
+                .select('*')
+                .order('id', { ascending: true });
+
+            if (error) throw error;
+            setSocialLinks(data || []);
+        } catch (error: any) {
+            console.error('Error fetching social links:', error);
+        }
+    };
+
+    const toggleSocialLink = async (id: number, currentStatus: boolean) => {
+        const activeCount = socialLinks.filter(l => l.is_active).length;
+        if (!currentStatus && activeCount >= 4) {
+            toast({ title: "تنبيه", description: "يمكنك تفعيل 4 روابط كحد أقصى للظهور في الموقع", variant: "destructive" });
+            return;
+        }
+
+        try {
+            const { error } = await supabase.from('social_links').update({ is_active: !currentStatus }).eq('id', id);
+            if (error) throw error;
+            setSocialLinks(socialLinks.map(link => link.id === id ? { ...link, is_active: !currentStatus } : link));
+        } catch (error: any) {
+            toast({ title: "خطأ", description: "فشل تحديث حالة الرابط", variant: "destructive" });
+        }
+    };
+
+    const updateSocialUrl = async (id: number, url: string) => {
+        try {
+            const { error } = await supabase.from('social_links').update({ url }).eq('id', id);
+            if (error) throw error;
+            setSocialLinks(socialLinks.map(link => link.id === id ? { ...link, url } : link));
+            toast({ title: "تم الحفظ", description: "تم تحديث الرابط بنجاح" });
+        } catch (error: any) {
+            toast({ title: "خطأ", description: "فشل تحديث الرابط", variant: "destructive" });
         }
     };
 
@@ -153,9 +199,9 @@ export default function AdminPage() {
             const technologies = [newProject.tech1, newProject.tech2, newProject.tech3].filter(t => t.trim() !== "");
 
             const { data, error } = await supabase.from('site_projects').insert([{
-                name_ar: newProject.name_ar,
+                name_ar: newProject.name_en, // Automatically use english for both
                 name_en: newProject.name_en,
-                description_ar: newProject.description_ar,
+                description_ar: newProject.description_en, // Automatically use english for both
                 description_en: newProject.description_en,
                 url: newProject.url,
                 image_url: newProject.image_url,
@@ -169,8 +215,8 @@ export default function AdminPage() {
                 setProjects([data[0], ...projects]);
                 setShowAddProject(false);
                 setNewProject({
-                    name_ar: "", name_en: "", description_ar: "", description_en: "",
-                    url: "", image_url: "", category: "general",
+                    name_en: "", description_en: "",
+                    url: "", image_url: "", category: "web",
                     tech1: "", tech2: "", tech3: ""
                 });
                 toast({ title: "تم الإنشاء", description: "تم نشر المشروع الجديد بنجاح" });
@@ -273,6 +319,12 @@ export default function AdminPage() {
                         onClick={() => setActiveTab('projects')}
                     />
                     <SidebarLink
+                        active={activeTab === 'social'}
+                        icon={<Share2 className="w-5 h-5" />}
+                        label="التواصل الاجتماعي"
+                        onClick={() => setActiveTab('social')}
+                    />
+                    <SidebarLink
                         active={activeTab === 'analytics'}
                         icon={<Activity className="w-5 h-5" />}
                         label="الإحصائيات"
@@ -308,6 +360,7 @@ export default function AdminPage() {
                         <h2 className="text-3xl font-bold text-white mb-2">
                             {activeTab === 'messages' && "رسائل العملاء"}
                             {activeTab === 'projects' && "كتالوج المشاريع"}
+                            {activeTab === 'social' && "التواصل الاجتماعي"}
                             {activeTab === 'analytics' && "مركز البيانات"}
                         </h2>
                         <p className="text-gray-500">مرحباً بعودتك، المسؤول HSG</p>
@@ -471,6 +524,43 @@ export default function AdminPage() {
                                 </div>
                             )}
 
+                            {activeTab === 'social' && (
+                                <div className="space-y-8">
+                                    <div className="flex justify-between items-center mb-8">
+                                        <div>
+                                            <h3 className="text-2xl font-bold mb-2">روابط التواصل الاجتماعي</h3>
+                                            <p className="text-gray-500 text-sm">أضف روابط حساباتك للظهور في الموقع. <strong className="text-blue-400">يمكنك تفعيل 4 روابط كحد أقصى للظهور بالموقع.</strong></p>
+                                        </div>
+                                    </div>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        {socialLinks.map((link) => {
+                                            const getIcon = (platform: string) => {
+                                                switch (platform) {
+                                                    case 'tiktok': return { icon: "fab fa-tiktok", color: "text-pink-500", label: "TikTok" };
+                                                    case 'instagram': return { icon: "fab fa-instagram", color: "text-rose-500", label: "Instagram" };
+                                                    case 'facebook': return { icon: "fab fa-facebook-f", color: "text-blue-600", label: "Facebook" };
+                                                    case 'youtube': return { icon: "fab fa-youtube", color: "text-red-500", label: "YouTube" };
+                                                    case 'whatsapp': return { icon: "fab fa-whatsapp", color: "text-green-500", label: "WhatsApp" };
+                                                    case 'email': return { icon: "fas fa-envelope", color: "text-blue-400", label: "Email" };
+                                                    default: return { icon: "fas fa-link", color: "text-gray-400", label: platform };
+                                                }
+                                            };
+                                            const platformInfo = getIcon(link.platform);
+                                            // Local state for input before saving
+                                            return (
+                                                <SocialLinkEditor
+                                                    key={link.id}
+                                                    link={link}
+                                                    platformInfo={platformInfo}
+                                                    onToggle={() => toggleSocialLink(link.id, link.is_active)}
+                                                    onSave={(newUrl) => updateSocialUrl(link.id, newUrl)}
+                                                />
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            )}
+
                             {activeTab === 'analytics' && (
                                 <div className="space-y-8">
                                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -578,39 +668,12 @@ export default function AdminPage() {
 
                             <div className="p-8 overflow-y-auto max-h-[calc(90vh-100px)] custom-scrollbar">
                                 <form onSubmit={handleCreateProject} className="space-y-10">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                        {/* Arabic Info */}
-                                        <div className="space-y-6">
-                                            <div className="flex items-center gap-2 text-blue-400 font-bold border-b border-blue-500/10 pb-4">
-                                                <span className="w-2 h-6 bg-blue-500 rounded-full" />
-                                                المحتوى العربي الرقمي
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-xs text-gray-500 font-bold uppercase tracking-wider pr-1">اسم الموقع</label>
-                                                <input
-                                                    required
-                                                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-blue-500 outline-none transition-all placeholder:text-gray-700"
-                                                    value={newProject.name_ar}
-                                                    onChange={e => setNewProject({ ...newProject, name_ar: e.target.value })}
-                                                />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <label className="text-xs text-gray-500 font-bold uppercase tracking-wider pr-1">وصف مقتضب</label>
-                                                <textarea
-                                                    required
-                                                    rows={4}
-                                                    className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 focus:border-blue-500 outline-none transition-all resize-none placeholder:text-gray-700"
-                                                    value={newProject.description_ar}
-                                                    onChange={e => setNewProject({ ...newProject, description_ar: e.target.value })}
-                                                />
-                                            </div>
-                                        </div>
-
-                                        {/* English Info */}
+                                    <div className="grid grid-cols-1 gap-10">
+                                        {/* Project Info */}
                                         <div className="space-y-6" dir="ltr">
                                             <div className="flex items-center gap-2 text-purple-400 font-bold border-b border-purple-500/10 pb-4">
                                                 <span className="w-2 h-6 bg-purple-500 rounded-full" />
-                                                ENGLISH DEPLOYMENT DATA
+                                                PROJECT DEPLOYMENT DATA
                                             </div>
                                             <div className="space-y-2 text-left">
                                                 <label className="text-xs text-gray-500 font-bold uppercase tracking-wider pl-1">SITE NAME</label>
@@ -669,11 +732,10 @@ export default function AdminPage() {
                                                 value={newProject.category}
                                                 onChange={e => setNewProject({ ...newProject, category: e.target.value })}
                                             >
-                                                <option value="general" className="bg-black">عام (General)</option>
-                                                <option value="web" className="bg-black">تطبيقات ويب (Web Apps)</option>
-                                                <option value="mobile" className="bg-black">تطبيقات جوال (Mobile Apps)</option>
-                                                <option value="design" className="bg-black">تصميم (UI/UX)</option>
-                                                <option value="ai" className="bg-black">ذكاء اصطناعي (AI)</option>
+                                                <option value="web" className="bg-black">تطوير الويب (Web Development)</option>
+                                                <option value="ai" className="bg-black">الذكاء الاصطناعي (AI)</option>
+                                                <option value="islamic" className="bg-black">تطبيقات إسلامية (Islamic Apps)</option>
+                                                <option value="tools" className="bg-black">أدوات مساعدة (Tools)</option>
                                             </select>
                                         </div>
                                         <div className="space-y-2">
@@ -800,6 +862,50 @@ function MetricItem({ label, percentage, value, color }: { label: string, percen
                     transition={{ duration: 1, delay: 0.5 }}
                     className={`h-full ${colors[color]}`}
                 />
+            </div>
+        </div>
+    );
+}
+
+function SocialLinkEditor({ link, platformInfo, onToggle, onSave }: { link: SocialLink, platformInfo: any, onToggle: () => void, onSave: (url: string) => void }) {
+    const [localUrl, setLocalUrl] = useState(link.url);
+    const hasChanges = localUrl !== link.url;
+
+    return (
+        <div className={`glass-dark p-6 rounded-[28px] border transition-all ${link.is_active ? 'border-blue-500/30 shadow-[0_0_30px_rgba(59,130,246,0.1)]' : 'border-white/5 opacity-80 shrink-0'}`}>
+            <div className="flex justify-between items-center mb-6">
+                <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center">
+                        <i className={`${platformInfo.icon} text-2xl ${platformInfo.color}`}></i>
+                    </div>
+                    <span className="font-bold text-lg">{platformInfo.label}</span>
+                </div>
+                <button
+                    onClick={onToggle}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${link.is_active ? 'bg-blue-500/20 text-blue-400 hover:bg-blue-500/30' : 'bg-gray-500/20 text-gray-400 hover:bg-gray-500/30'}`}
+                >
+                    {link.is_active ? <><CheckCircle2 className="w-4 h-4" /> نشط</> : <><Circle className="w-4 h-4" /> معطل</>}
+                </button>
+            </div>
+            <div className="space-y-3">
+                <div className="relative group">
+                    <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-focus-within:text-blue-400 transition-colors" />
+                    <input
+                        value={localUrl}
+                        onChange={(e) => setLocalUrl(e.target.value)}
+                        className="w-full bg-black/40 border border-white/10 rounded-2xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-blue-500 transition-all font-mono"
+                        placeholder="https://..."
+                        dir="ltr"
+                    />
+                </div>
+                {hasChanges && (
+                    <button
+                        onClick={() => onSave(localUrl)}
+                        className="w-full bg-green-500/10 text-green-500 hover:bg-green-500 hover:text-white border border-green-500/20 py-2.5 rounded-xl font-bold text-sm transition-all shadow-lg"
+                    >
+                        حفظ التغييرات
+                    </button>
+                )}
             </div>
         </div>
     );
