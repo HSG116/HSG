@@ -144,7 +144,10 @@ export default function ContactSection() {
 
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-blue-400" />
-                HSG Studio <span className="text-xs font-normal text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-full">Canada HQ</span>
+                HSG Studio
+                <span className="flex items-center gap-1.5 ml-auto text-[10px] uppercase tracking-widest font-bold text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full border border-blue-400/20">
+                  <span className="text-base leading-none">🇨🇦</span> Canada HQ
+                </span>
               </h3>
 
               <div className="space-y-6">

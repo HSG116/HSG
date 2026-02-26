@@ -1,6 +1,8 @@
 {
-  "name": "fakham-design-portfolio",
+  "name": "hsg-studio-canada",
   "version": "1.0.0",
+  "description": "HSG Studio - Premium Web Development & Digital Solutions in Canada",
+  "author": "HSG Studio",
   "type": "module",
   "license": "MIT",
   "scripts": {

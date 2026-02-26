@@ -20,14 +20,24 @@ export default function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4">
-          <span className="gradient-text">{t("hero.title") || "Fakhama Design"}</span>
+        <div className="flex items-center gap-2 mb-6 justify-center lg:justify-start">
+          <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] uppercase tracking-[0.2em] font-bold text-blue-400 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,1)]" />
+            Empowering Canadian Businesses
+          </span>
+          <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] uppercase tracking-[0.2em] font-bold text-gray-400">
+            🇨🇦 Global Standards
+          </span>
+        </div>
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-6 tracking-tighter">
+          <span className="gradient-text">{t("hero.title") || "HSG Studio"}</span>
         </h1>
-        <p className="text-xl md:text-2xl text-blue-400 font-medium mb-6">
+        <p className="text-xl md:text-2xl text-blue-400 font-semibold mb-8 max-w-xl mx-auto lg:mx-0">
           {t("hero.subtitle")}
         </p>
-        <div className="max-w-2xl mx-auto lg:mx-0 space-y-4">
-          <p className="text-lg text-gray-400 leading-relaxed bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm">
+        <div className="max-w-2xl mx-auto lg:mx-0">
+          <p className="text-lg text-gray-400 leading-relaxed bg-white/[0.03] p-6 rounded-2xl border border-white/5 backdrop-blur-md shadow-2xl relative overflow-hidden group">
+            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-500 md:opacity-0 group-hover:opacity-100 transition-opacity" />
             {t("hero.description1")} {t("hero.description2")}
           </p>
         </div>
