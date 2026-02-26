@@ -73,7 +73,7 @@ export default function HeroSection() {
         <div className="relative p-4 transition-all duration-500">
           <img
             src={logoDark}
-            alt="HSG Logo"
+            alt="HSG Studio Logo"
             className="w-64 md:w-80 lg:w-96 h-auto drop-shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-500 group-hover:scale-105"
           />
         </div>

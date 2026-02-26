@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
-import { Send, Sparkles, Loader2, Phone, Mail, Clock } from "lucide-react";
+import { Send, Sparkles, Loader2, Phone, Clock } from "lucide-react";
 
 export default function ContactSection() {
   const { t } = useTranslation();
@@ -16,38 +16,48 @@ export default function ContactSection() {
     description: "",
   });
 
-  const [socialLinks, setSocialLinks] = useState<any[]>([]);
-
-  useEffect(() => {
-    const fetchSocialLinks = async () => {
-      const { data } = await supabase.from('social_links').select('*').eq('is_active', true).order('id', { ascending: true });
-      if (data) {
-        const mappedLinks = data.slice(0, 4).map(link => {
-          switch (link.platform) {
-            case 'tiktok': return { id: link.id, platform: link.platform, icon: "fab fa-tiktok", label: "TikTok", href: link.url, color: "text-pink-500", bg: "bg-pink-500/10", border: "border-pink-500/20" };
-            case 'instagram': return { id: link.id, platform: link.platform, icon: "fab fa-instagram", label: "Instagram", href: link.url, color: "text-rose-500", bg: "bg-rose-500/10", border: "border-rose-500/20" };
-            case 'facebook': return { id: link.id, platform: link.platform, icon: "fab fa-facebook-f", label: "Facebook", href: link.url, color: "text-blue-600", bg: "bg-blue-600/10", border: "border-blue-600/20" };
-            case 'youtube': return { id: link.id, platform: link.platform, icon: "fab fa-youtube", label: "YouTube", href: link.url, color: "text-red-500", bg: "bg-red-500/10", border: "border-red-500/20" };
-            case 'whatsapp': return { id: link.id, platform: link.platform, icon: "fab fa-whatsapp", label: "WhatsApp", href: !!link.url && !link.url.startsWith('http') && link.url.match(/^[0-9+]+$/) ? `https://wa.me/${link.url.replace(/\+/g, '')}` : link.url.includes('@') ? link.url : link.url.startsWith('http') ? link.url : `https://wa.me/${link.url}`, color: "text-green-500", bg: "bg-green-500/10", border: "border-green-500/20" };
-            case 'email': return { id: link.id, platform: link.platform, icon: "fas fa-envelope", label: "Email", href: link.url.includes('@') && !link.url.startsWith('mailto:') ? `mailto:${link.url}` : link.url, color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20" };
-            default: return { id: link.id, platform: link.platform, icon: "fas fa-link", label: link.platform, href: link.url, color: "text-gray-400", bg: "bg-gray-400/10", border: "border-gray-400/20" };
-          }
-        });
-
-        // الترتيب لضمان وجود الواتساب والإيميل في النهاية دائماً
-        mappedLinks.sort((a, b) => {
-          const isAContact = a.platform === 'whatsapp' || a.platform === 'email';
-          const isBContact = b.platform === 'whatsapp' || b.platform === 'email';
-          if (isAContact && !isBContact) return 1;
-          if (!isAContact && isBContact) return -1;
-          return 0;
-        });
-
-        setSocialLinks(mappedLinks);
-      }
-    };
-    fetchSocialLinks();
-  }, []);
+  const socialLinks = [
+    {
+      id: "x",
+      platform: "x",
+      icon: "fab fa-x-twitter",
+      label: "X (Twitter)",
+      href: "https://x.com/HSG116K",
+      color: "text-white",
+      bg: "bg-black/80",
+      border: "border-white/20"
+    },
+    {
+      id: "instagram",
+      platform: "instagram",
+      icon: "fab fa-instagram",
+      label: "Instagram",
+      href: "https://www.instagram.com/hs6_new/",
+      color: "text-rose-500",
+      bg: "bg-rose-500/10",
+      border: "border-rose-500/20"
+    },
+    {
+      id: "whatsapp",
+      platform: "whatsapp",
+      icon: "fab fa-whatsapp",
+      label: "WhatsApp",
+      href: "https://wa.me/14167377776",
+      color: "text-green-500",
+      bg: "bg-green-500/10",
+      border: "border-green-500/20"
+    },
+    {
+      id: "email",
+      platform: "email",
+      icon: "fas fa-envelope",
+      label: t("contact.email_label"),
+      href: "mailto:hsg.mohammed1@gmail.com",
+      color: "text-blue-400",
+      bg: "bg-blue-400/10",
+      border: "border-blue-400/20"
+    },
+  ];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -98,7 +108,6 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="relative py-24 px-4 overflow-hidden">
-      {/* Background Ambience removed for a monolithic seamless look */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
 
@@ -124,39 +133,83 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="grid lg:grid-cols-5 gap-8 items-start">
-          {/* Visual Side & Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-2 space-y-6"
           >
-            {/* Info Card */}
+            <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/10 backdrop-blur-xl border border-blue-500/20 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-blue-500/20 transition-colors" />
+
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-blue-400" />
+                HSG Studio <span className="text-xs font-normal text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded-full">Canada HQ</span>
+              </h3>
+
+              <div className="space-y-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center shrink-0">
+                    <i className="fas fa-map-marker-alt text-blue-400"></i>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-300 mb-1">{t("contact.company_address_title")}</h4>
+                    <p className="text-sm text-gray-400 leading-relaxed">
+                      201 Lormont BLVD, Stoney Creek ON. Canada<br />
+                      L8J 0K1
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-green-500/20 border border-green-500/30 flex items-center justify-center shrink-0">
+                    <Phone className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-300 mb-1">{t("contact.office_title")}</h4>
+                    <a href="tel:+14167377776" className="text-lg font-bold text-white hover:text-blue-400 transition-colors">
+                      +1 (416) 737-7776
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center shrink-0">
+                    <Clock className="w-5 h-5 text-purple-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-300 mb-1">{t("contact.working_hours_title")}</h4>
+                    <p className="text-sm text-white font-medium">{t("contact.working_hours_days")}</p>
+                    <p className="text-xs text-gray-400">{t("contact.working_hours_time")}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-xl border border-white/5 rounded-3xl p-8">
               <h3 className="text-xl font-bold text-white mb-6">{t("contact.why_choose_us")}</h3>
               <ul className="space-y-4 text-sm text-gray-400">
                 <li className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400">
-                    1
+                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-xs">
+                    01
                   </div>
                   {t("contact.feature_modern")}
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400">
-                    2
+                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-xs">
+                    02
                   </div>
                   {t("contact.feature_performance")}
                 </li>
                 <li className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400">
-                    3
+                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold text-xs">
+                    03
                   </div>
                   {t("contact.feature_support")}
                 </li>
               </ul>
             </div>
 
-            {/* Social Links Grid */}
             <div className="grid grid-cols-2 gap-3">
               {socialLinks.map((item) => (
                 <a
@@ -166,14 +219,19 @@ export default function ContactSection() {
                   rel="noopener noreferrer"
                   className={`flex flex-col items-center justify-center p-4 rounded-2xl border ${item.border} ${item.bg} hover:scale-105 transition-transform duration-300 group`}
                 >
-                  <i className={`${item.icon} text-2xl ${item.color} mb-2`}></i>
+                  {item.platform === 'x' ? (
+                    <svg viewBox="0 0 24 24" className="w-6 h-6 fill-white mb-2" aria-hidden="true">
+                      <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403z" />
+                    </svg>
+                  ) : (
+                    <i className={`${item.icon} text-2xl ${item.color} mb-2`}></i>
+                  )}
                   <span className="text-xs font-medium text-gray-300">{item.label}</span>
                 </a>
               ))}
             </div>
           </motion.div>
 
-          {/* Form Side */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}

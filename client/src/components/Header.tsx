@@ -191,7 +191,7 @@ export default function Header() {
             <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-2xl p-4 backdrop-blur-xl">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50" />
-                <p className="text-white text-sm font-semibold">HSG Portfolio</p>
+                <p className="text-white text-sm font-semibold">HSG Studio</p>
               </div>
               <p className="text-gray-400 text-xs leading-relaxed">{t("nav.sidebar_footer")}</p>
             </div>

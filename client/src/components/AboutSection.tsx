@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 export default function AboutSection() {
   const { t } = useTranslation();
 
-  const cvUrl = "/CV-en.pdf";
 
   return (
     <section
@@ -16,7 +15,7 @@ export default function AboutSection() {
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-100 via-white to-blue-100 mb-6 pb-2 inline-block opacity-0 animate-fade-in-up" style={{ animationFillMode: "forwards" }}>
-            HSG {t("about.title")}
+            HSG Studio {t("about.title")}
           </h2>
           <div className="flex items-center justify-center gap-2 max-w-xs mx-auto">
             <div className="h-[1px] w-full bg-gradient-to-r from-transparent to-blue-500/50"></div>
@@ -32,7 +31,7 @@ export default function AboutSection() {
           >
             <h3 className="text-2xl font-bold text-primary mb-6 text-center">
               <span className="bg-gradient-to-l from-blue-500 to-blue-700 bg-clip-text text-transparent">
-                HSG
+                HSG Studio
               </span>
             </h3>
 
@@ -64,20 +63,6 @@ export default function AboutSection() {
                   <span>{t("about.exp5")}</span>
                 </li>
               </ul>
-            </div>
-
-            <div className="flex flex-col items-center gap-4 mb-8">
-              <a
-                href={cvUrl}
-                download
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg font-semibold transition-all hover:shadow-lg hover:shadow-blue-500/50 hover:scale-105"
-                data-testid="download-cv-current"
-              >
-                <i className="fas fa-external-link-alt"></i>
-                <span>{t("about.download_cv")}</span>
-              </a>
             </div>
 
             <div className="space-y-6">
