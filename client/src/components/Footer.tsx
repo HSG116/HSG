@@ -24,7 +24,7 @@ export default function Footer() {
 
           <div className="flex flex-col items-center md:items-end gap-4 text-center md:text-right">
             <div className="flex flex-col gap-1">
-              <a href="tel:+14167377776" className="text-foreground font-medium hover:text-primary transition-colors">
+              <a href="https://wa.me/14167377776" target="_blank" rel="noopener noreferrer" className="text-foreground font-medium hover:text-primary transition-colors">
                 +1 (416) 737-7776
               </a>
               <p className="text-muted-foreground text-sm">

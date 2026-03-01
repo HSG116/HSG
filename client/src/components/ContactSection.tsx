@@ -170,7 +170,7 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold text-gray-300 mb-1">{t("contact.office_title")}</h4>
-                    <a href="tel:+14167377776" className="text-lg font-bold text-white hover:text-blue-400 transition-colors">
+                    <a href="https://wa.me/14167377776" target="_blank" rel="noopener noreferrer" className="text-lg font-bold text-white hover:text-blue-400 transition-colors">
                       +1 (416) 737-7776
                     </a>
                   </div>
