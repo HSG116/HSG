@@ -124,7 +124,7 @@ export default function ContactSection() {
               {t("contact.badge")}
             </span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-100 via-white to-blue-100 mb-6 font-cairo pb-2 inline-block">
+          <h2 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-100 via-white to-blue-100 mb-6 font-outfit pb-2 inline-block">
             {t("contact.heading")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
