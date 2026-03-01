@@ -2,15 +2,16 @@ import logoDark from "@assets/880o868973_1764355143132.png";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { Code, Palette } from "lucide-react";
+import { useLocation } from "wouter";
 
 export default function HeroSection() {
   const { t } = useTranslation();
+  const [, setLocation] = useLocation();
 
   const handleScrollTo = (id: string) => {
-    const element = document.querySelector(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    // Convert #section to /section for routing
+    const path = id.startsWith("#") ? "/" + id.substring(1) : id;
+    setLocation(path);
   };
 
   const textBlock = (

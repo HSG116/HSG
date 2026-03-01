@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { NAV_LINKS } from "@/data/services";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLocation } from "wouter";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const { t } = useTranslation();
+  const [, setLocation] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,10 +35,9 @@ export default function Header() {
 
   const handleNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    // Convert #section to /section for routing
+    const path = href.startsWith("#") ? "/" + href.substring(1) : href;
+    setLocation(path);
   };
 
   const mobileToggle = (
