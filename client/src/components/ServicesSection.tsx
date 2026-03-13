@@ -22,7 +22,7 @@ export default function ServicesSection() {
           opacity: [0.3, 0.5, 0.3],
         }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none -z-10 -translate-y-1/2"
+        className="absolute top-0 start-1/4 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none -z-10 -translate-y-1/2"
       />
       <motion.div
         animate={{
@@ -30,7 +30,7 @@ export default function ServicesSection() {
           opacity: [0.2, 0.4, 0.2],
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[100px] pointer-events-none -z-10 translate-y-1/3"
+        className="absolute bottom-0 end-1/4 w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[100px] pointer-events-none -z-10 translate-y-1/3"
       />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
@@ -51,7 +51,7 @@ export default function ServicesSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 tracking-tight drop-shadow-sm"
+            className="text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 py-4 leading-[1.2] inline-block"
           >
             {t("services.title")}
           </motion.h2>

@@ -9,7 +9,7 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <AnimatePresence>
@@ -36,7 +36,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 z-20 w-12 h-12 flex items-center justify-center bg-black/50 hover:bg-white/10 backdrop-blur-lg border border-white/10 rounded-full text-white transition-colors duration-300 group"
+              className="absolute top-6 end-6 z-20 w-12 h-12 flex items-center justify-center bg-black/50 hover:bg-white/10 backdrop-blur-lg border border-white/10 rounded-full text-white transition-colors duration-300 group"
               data-testid="modal-close"
             >
               <i className="fas fa-times text-xl group-hover:scale-110 transition-transform"></i>
@@ -56,9 +56,9 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                 <div className="absolute inset-0 bg-gradient-to-t from-[#030d1f] via-transparent to-transparent" />
 
                 {/* Category Badge overlaying image */}
-                <div className="absolute bottom-6 left-6 md:bottom-8 md:left-10 flex items-center gap-3">
+                <div className="absolute bottom-6 start-6 md:bottom-8 md:start-10 flex items-center gap-3">
                   <span className="px-4 py-1.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-xs font-bold tracking-widest uppercase backdrop-blur-md">
-                    {project.category}
+                    {t("projects." + project.categoryKey) || project.category}
                   </span>
                 </div>
               </div>
@@ -66,17 +66,17 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               {/* Content Section */}
               <div className="p-6 md:p-10 bg-[#030d1f] relative">
                 {/* Subtle Glow Behind Text */}
-                <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-[80px]" />
+                <div className="absolute top-0 end-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-[80px]" />
 
                 <div className="flex flex-col md:flex-row gap-8 md:gap-12 relative z-10">
                   {/* Left Column: Title & Description */}
                   <div className="flex-1">
                     <h3 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-6">
-                      {project.title}
+                      {i18n.language === 'ar' ? (project.titleAr || project.title) : project.title}
                     </h3>
 
                     <p className="text-gray-400 text-base md:text-lg leading-relaxed font-light whitespace-pre-line">
-                      {project.longDescription}
+                      {i18n.language === 'ar' ? (project.longDescriptionAr || project.longDescription) : project.longDescription}
                     </p>
                   </div>
 
@@ -109,10 +109,10 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                       data-testid="modal-demo-link"
                     >
                       {/* Button Hover Effect */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                      <div className="absolute inset-0 bg-gradient-to-r rtl:bg-gradient-to-l from-transparent via-black/10 to-transparent translate-x-[-100%] rtl:translate-x-[100%] group-hover:translate-x-[100%] rtl:group-hover:translate-x-[-100%] transition-transform duration-700" />
 
                       <span>{t("modal.visit_site")}</span>
-                      <i className="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
+                      <i className="fas fa-arrow-right rtl:-scale-x-100 text-sm group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform"></i>
                     </a>
                   </div>
                 </div>

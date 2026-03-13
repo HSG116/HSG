@@ -370,3 +370,17 @@
     inset: -1px;
   }
 }
+html[lang="ar"] {
+  font-size: 15px !important; /* Scales down all Tailwind rem sizes slightly to fix overflows */
+}
+
+body.arabic-font {
+  --font-outfit: 'Tajawal', sans-serif !important;
+  --font-sans: 'Tajawal', sans-serif !important;
+  font-family: 'Tajawal', sans-serif !important;
+  line-height: 1.6;
+}
+
+body.arabic-font *:not(.fa):not(.fas):not(.fab) {
+  letter-spacing: 0 !important;
+}

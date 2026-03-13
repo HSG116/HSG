@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface Star {
   id: number;
@@ -20,8 +21,10 @@ interface ShootingStar {
 export default function StarsBackground() {
   const [stars, setStars] = useState<Star[]>([]);
   const [shootingStars, setShootingStars] = useState<ShootingStar[]>([]);
+  const { i18n } = useTranslation();
 
   useEffect(() => {
+    // ... rest of useEffect content ...
     const isMobile = window.innerWidth < 768;
     const numberOfStars = isMobile ? 80 : 150;
 
@@ -81,8 +84,8 @@ export default function StarsBackground() {
       <div className="absolute inset-0 bg-black/60 pointer-events-none" />
 
       {/* إضاءات خافتة زرقاء مأخوذة من About Me تعطي فخامة للتصميم */}
-      <div className="absolute top-1/4 left-1/4 w-[600px] h-[300px] bg-blue-900/10 blur-[100px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[300px] bg-blue-900/10 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 start-1/4 w-[600px] h-[300px] bg-blue-900/10 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 end-1/4 w-[600px] h-[300px] bg-blue-900/10 blur-[100px] rounded-full pointer-events-none" />
 
       {stars.map((star) => (
         <div
@@ -105,7 +108,9 @@ export default function StarsBackground() {
           style={{
             left: `${star.startX}%`,
             top: `${star.startY}%`,
-            background: "linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(78,107,255,0) 100%)",
+            background: i18n.language === 'ar' 
+              ? "linear-gradient(to left, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(78,107,255,0) 100%)"
+              : "linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(78,107,255,0) 100%)",
             animation: `shooting ${star.duration}s ease-out infinite`,
             animationDelay: `${star.delay}s`,
             transform: `rotate(${Math.random() * 20 - 10}deg)`,

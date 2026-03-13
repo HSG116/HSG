@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "wouter";
 import StarsBackground from "@/components/StarsBackground";
 import Header from "@/components/Header";
@@ -11,8 +12,10 @@ import Footer from "@/components/Footer";
 
 export default function Home() {
   const [location] = useLocation();
+  const { i18n } = useTranslation();
 
   useEffect(() => {
+    // ... rest of useEffect ...
     // If the location is not just '/', try to scroll to an element with that ID
     if (location !== "/") {
       const sectionId = location.substring(1); // remove leading slash
@@ -32,7 +35,7 @@ export default function Home() {
   return (
     <div
       className="min-h-screen font-outfit tracking-tight"
-      dir="ltr"
+      dir={i18n.language === "ar" ? "rtl" : "ltr"}
     >
       <StarsBackground />
       <Header />

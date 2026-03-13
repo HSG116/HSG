@@ -38,7 +38,7 @@ export default function HeroSection() {
         </p>
         <div className="max-w-2xl mx-auto lg:mx-0">
           <p className="text-lg text-gray-400 leading-relaxed bg-white/[0.03] p-6 rounded-2xl border border-white/5 backdrop-blur-md shadow-2xl relative overflow-hidden group">
-            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-500 md:opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute top-0 start-0 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-500 md:opacity-0 group-hover:opacity-100 transition-opacity" />
             {t("hero.description1")} {t("hero.description2")}
           </p>
         </div>
@@ -52,7 +52,7 @@ export default function HeroSection() {
       >
         <button
           onClick={() => handleScrollTo("#projects")}
-          className="group relative flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full font-bold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] overflow-hidden"
+          className="group relative flex items-center gap-3 px-8 py-4 bg-gradient-to-r rtl:bg-gradient-to-l from-blue-600 to-purple-600 text-white rounded-full font-bold transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] overflow-hidden"
         >
           <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
           <i className="fas fa-laptop-code"></i>
@@ -63,7 +63,7 @@ export default function HeroSection() {
           onClick={() => handleScrollTo("#contact")}
           className="flex items-center gap-3 px-8 py-4 bg-transparent text-white rounded-full font-bold transition-all duration-300 hover:bg-white/5 border-2 border-white/20 hover:border-white/40 group"
         >
-          <i className="fas fa-paper-plane transition-transform group-hover:-translate-y-1 group-hover:translate-x-1"></i>
+          <i className="fas fa-paper-plane rtl:-scale-x-100 transition-transform group-hover:-translate-y-1 group-hover:translate-x-1 rtl:group-hover:-translate-x-1"></i>
           <span>{t("hero.cta_contact")}</span>
         </button>
       </motion.div>
@@ -79,7 +79,7 @@ export default function HeroSection() {
     >
       <div className="relative animate-float z-10 group cursor-pointer">
         {/* Background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-blue-600/20 blur-[100px] rounded-full group-hover:bg-blue-600/30 transition-colors duration-1000" />
+        <div className="absolute top-1/2 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-blue-600/20 blur-[100px] rounded-full group-hover:bg-blue-600/30 transition-colors duration-1000" />
 
         <div className="relative p-4 transition-all duration-500">
           <img
@@ -90,10 +90,10 @@ export default function HeroSection() {
         </div>
 
         {/* Floaties */}
-        <div className="absolute -top-4 -left-4 w-12 h-12 flex items-center justify-center text-blue-400 animate-bounce [animation-duration:3s]">
+        <div className="absolute -top-4 -start-4 w-12 h-12 flex items-center justify-center text-blue-400 animate-bounce [animation-duration:3s]">
           <Code className="w-6 h-6" />
         </div>
-        <div className="absolute -bottom-6 -right-6 w-14 h-14 flex items-center justify-center text-purple-400 animate-bounce [animation-duration:4s]">
+        <div className="absolute -bottom-6 -end-6 w-14 h-14 flex items-center justify-center text-purple-400 animate-bounce [animation-duration:4s]">
           <Palette className="w-7 h-7" />
         </div>
       </div>
@@ -115,11 +115,11 @@ export default function HeroSection() {
 
       {/* Background patterns */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-blue-500/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full" />
+        <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-blue-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 end-0 w-[500px] h-[500px] bg-purple-500/10 blur-[120px] rounded-full" />
       </div>
 
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
+      <div className="absolute bottom-12 start-1/2 -translate-x-1/2 rtl:translate-x-1/2">
         <motion.button
           onClick={() => handleScrollTo("#services")}
           animate={{ y: [0, 10, 0] }}

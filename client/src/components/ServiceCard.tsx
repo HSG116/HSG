@@ -168,13 +168,13 @@ const CodeTypingMock = () => {
         {/* Code Area */}
         <div className="flex-1 p-4 font-mono text-xs text-gray-300 leading-relaxed max-w-[70%] overflow-hidden">
           <div
-            dangerouslySetInnerHTML={{ __html: syntaxHighlight(typed) + '<span class="inline-block w-2 h-3.5 bg-white/80 align-middle ml-1 animate-pulse" />' }}
+            dangerouslySetInnerHTML={{ __html: syntaxHighlight(typed) + '<span class="inline-block w-2 h-3.5 bg-white/80 align-middle ms-1 animate-pulse" />' }}
             className="break-words whitespace-pre-wrap"
           />
         </div>
 
         {/* Nested Animation Area: Live Graph Building Itself */}
-        <div className="absolute right-0 top-0 bottom-0 w-[30%] bg-[#111]/80 backdrop-blur-sm border-l border-white/5 flex flex-col items-center justify-center p-4">
+        <div className="absolute end-0 top-0 bottom-0 w-[30%] bg-[#111]/80 backdrop-blur-sm border-s border-white/5 flex flex-col items-center justify-center p-4">
 
           <div className="relative w-16 h-16 mb-4">
             <svg className="w-full h-full transform -rotate-90">
@@ -242,8 +242,8 @@ const GridMock = () => {
     <div className="relative h-64 w-full bg-[#0a0a0a] rounded-xl border border-white/5 overflow-hidden flex flex-col group-hover:border-emerald-500/30 transition-all duration-700 shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
       {/* Radar Background */}
       <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none" />
-      <div className="absolute -top-24 -right-24 w-64 h-64 border border-emerald-500/10 rounded-full opacity-50 pointer-events-none" />
-      <div className="absolute -top-12 -right-12 w-40 h-40 border border-emerald-500/10 rounded-full opacity-50 pointer-events-none" />
+      <div className="absolute -top-24 -end-24 w-64 h-64 border border-emerald-500/10 rounded-full opacity-50 pointer-events-none" />
+      <div className="absolute -top-12 -end-12 w-40 h-40 border border-emerald-500/10 rounded-full opacity-50 pointer-events-none" />
 
       <div className="p-4 border-b border-white/5 flex justify-between items-center bg-[#111]/80 backdrop-blur-sm relative z-10">
         <div className="flex items-center gap-2">
@@ -261,7 +261,7 @@ const GridMock = () => {
           <span className="col-span-1">Actor ID</span>
           <span className="col-span-1 text-center">Action</span>
           <span className="col-span-1 text-center">Region</span>
-          <span className="col-span-1 text-right">Status</span>
+          <span className="col-span-1 text-end">Status</span>
         </div>
 
         <div className="flex flex-col gap-1.5 relative flex-1 overflow-hidden">
@@ -302,7 +302,7 @@ const GridMock = () => {
       <motion.div
         animate={{ top: ['0%', '100%', '0%'] }}
         transition={{ duration: 6, ease: "linear", repeat: Infinity }}
-        className="absolute left-0 right-0 h-[1px] bg-emerald-500/30 shadow-[0_0_15px_#10b981] pointer-events-none z-20"
+        className="absolute start-0 end-0 h-[1px] bg-emerald-500/30 shadow-[0_0_15px_#10b981] pointer-events-none z-20"
       />
     </div>
   );
@@ -341,7 +341,7 @@ export default function ServiceCard({ service, index }: ServiceCardProps) {
       data-testid={`service-card-${service.id}`}
     >
       {/* Dynamic Top Gradient Glow Inside Card */}
-      <div className={`absolute top-0 left-0 right-0 h-40 bg-gradient-to-b ${colors[index % 3]} opacity-40 blur-[50px] transition-all duration-700 pointer-events-none`} />
+      <div className={`absolute top-0 start-0 end-0 h-40 bg-gradient-to-b ${colors[index % 3]} opacity-40 blur-[50px] transition-all duration-700 pointer-events-none`} />
 
       <div className="relative z-10 mb-10 text-center flex flex-col items-center">
         <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 shadow-inner flex items-center justify-center mb-6 backdrop-blur-md group-hover:scale-110 transition-transform duration-500">
@@ -360,7 +360,7 @@ export default function ServiceCard({ service, index }: ServiceCardProps) {
       </div>
 
       {/* Subtle bottom border line */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100" />
+      <div className="absolute bottom-0 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 w-1/3 h-[2px] bg-gradient-to-r rtl:bg-gradient-to-l from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100" />
     </motion.div>
   );
 }

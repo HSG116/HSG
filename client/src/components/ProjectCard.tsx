@@ -8,7 +8,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, onClick }: ProjectCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <motion.div
@@ -35,23 +35,23 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 mix-blend-overlay transition-opacity duration-500" />
 
       {/* Category Pill - Top Left */}
-      <div className="absolute top-3 left-3 md:top-5 md:left-5 z-20">
+      <div className="absolute top-3 start-3 md:top-5 md:start-5 z-20">
         <div className="px-2.5 md:px-4 py-1 md:py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[9px] md:text-xs font-bold text-white shadow-lg tracking-wider uppercase">
-          {project.category}
+          {t("projects." + project.categoryKey) || project.category}
         </div>
       </div>
 
       {/* Info Content — Always Visible */}
-      <div className="absolute inset-x-0 bottom-0 p-3 md:p-7 flex flex-col justify-end z-20 h-3/4 bg-gradient-to-t from-[#030b1a] via-[#030b1a]/85 to-transparent">
+      <div className="absolute inset-x-0 bottom-0 p-3 md:p-6 flex flex-col justify-end z-20 h-auto min-h-[45%] bg-gradient-to-t from-[#030b1a] via-[#030b1a]/95 to-transparent">
         <div>
           {/* Title */}
-          <h3 className="text-sm md:text-2xl font-bold tracking-tight text-white mb-1 md:mb-2 line-clamp-1 drop-shadow-md">
-            {project.title}
+          <h3 className="text-[15px] md:text-2xl font-bold tracking-tight text-white mb-2 line-clamp-none drop-shadow-md leading-tight">
+            {i18n.language === 'ar' ? (project.titleAr || project.title) : project.title}
           </h3>
 
           {/* Description */}
-          <p className="text-gray-400 text-[10px] md:text-sm mb-2 md:mb-4 line-clamp-2 leading-relaxed">
-            {project.description}
+          <p className="text-gray-400 text-[10px] md:text-sm mb-2 md:mb-4 line-clamp-1 md:line-clamp-2 leading-relaxed">
+            {i18n.language === 'ar' ? (project.descriptionAr || project.description) : project.description}
           </p>
 
           {/* Tech Tags — Desktop Only */}
@@ -61,7 +61,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
                 key={idx}
                 className="px-2.5 py-1 bg-white/10 backdrop-blur-[2px] border border-white/5 text-gray-300 text-[10px] font-mono tracking-widest uppercase rounded flex items-center shadow-inner"
               >
-                <span className="w-1 h-1 rounded-full bg-cyan-400 mr-2 animate-pulse" />
+                <span className="w-1 h-1 rounded-full bg-cyan-400 me-2 animate-pulse" />
                 {tech}
               </span>
             ))}
@@ -83,7 +83,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
               data-testid={`project-demo-${project.id}`}
             >
               <span>{t("projects.visit")}</span>
-              <i className="fas fa-arrow-right text-[7px] md:text-[10px]"></i>
+              <i className="fas fa-arrow-right rtl:-scale-x-100 text-[7px] md:text-[10px]"></i>
             </a>
             <button
               onClick={(e) => {

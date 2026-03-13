@@ -108,8 +108,8 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="relative py-24 px-4 overflow-hidden">
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 start-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-0 end-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto relative z-10 max-w-6xl">
         <motion.div
@@ -124,7 +124,7 @@ export default function ContactSection() {
               {t("contact.badge")}
             </span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-100 via-white to-blue-100 mb-6 font-outfit pb-2 inline-block">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 py-4 leading-[1.2] inline-block">
             {t("contact.heading")}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
@@ -140,12 +140,12 @@ export default function ContactSection() {
             className="lg:col-span-2 space-y-6"
           >
             <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/10 backdrop-blur-xl border border-blue-500/20 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -mr-16 -mt-16 group-hover:bg-blue-500/20 transition-colors" />
+              <div className="absolute top-0 end-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -me-16 -mt-16 group-hover:bg-blue-500/20 transition-colors" />
 
               <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-blue-400" />
                 HSG Studio
-                <span className="flex items-center gap-1.5 ml-auto text-[10px] uppercase tracking-widest font-bold text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full border border-blue-400/20">
+                <span className="flex items-center gap-1.5 ms-auto text-[10px] uppercase tracking-widest font-bold text-blue-400 bg-blue-400/10 px-3 py-1 rounded-full border border-blue-400/20">
                   <span className="text-base leading-none">🇨🇦</span> Canada HQ
                 </span>
               </h3>
@@ -308,7 +308,7 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-xl font-bold shadow-lg shadow-blue-500/25 transition-all transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-3"
+                className="w-full py-4 bg-gradient-to-r rtl:bg-gradient-to-l from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white rounded-xl font-bold shadow-lg shadow-blue-500/25 transition-all transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-3"
               >
                 {loading ? (
                   <>
@@ -317,7 +317,7 @@ export default function ContactSection() {
                   </>
                 ) : (
                   <>
-                    <Send className="w-5 h-5" />
+                    <Send className="w-5 h-5 rtl:-scale-x-100" />
                     {t("contact.send")}
                   </>
                 )}

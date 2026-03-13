@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function ProjectsSection() {
   const { t } = useTranslation();
-  const [activeFilter, setActiveFilter] = useState("all");
+  const [activeFilter, setActiveFilter] = useState("featured");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [dbProjects, setDbProjects] = useState<Project[]>([]);
 
@@ -20,14 +20,14 @@ export default function ProjectsSection() {
         const mappedProjects: Project[] = data.map((p: any) => ({
           id: p.id,
           title: p.name_en || p.name_ar,
-          titleEn: p.name_en,
+          titleAr: p.name_ar,
           category: p.category || "web",
           categoryKey: p.category || "web",
           imageUrl: p.image_url || "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=600&auto=format&fit=crop",
           description: p.description_en || p.description_ar,
-          descriptionEn: p.description_en,
+          descriptionAr: p.description_ar,
           longDescription: p.description_en || p.description_ar,
-          longDescriptionEn: p.description_en,
+          longDescriptionAr: p.description_ar,
           technologies: p.technologies || ["Web"],
           demoLink: p.url || "#"
         })) as any;
@@ -41,11 +41,13 @@ export default function ProjectsSection() {
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === "all") return allProjects;
+    if (activeFilter === "featured") return allProjects.filter(p => p.isFeatured);
     return allProjects.filter((project) => project.categoryKey === activeFilter);
   }, [activeFilter, allProjects]);
 
   const getCategoryCount = (key: string) => {
     if (key === "all") return allProjects.length;
+    if (key === "featured") return allProjects.filter(p => p.isFeatured).length;
     return allProjects.filter((p) => p.categoryKey === key).length;
   };
 
@@ -63,8 +65,8 @@ export default function ProjectsSection() {
       data-testid="projects-section"
     >
       {/* Background Ambience removed for a monolithic seamless look */}
-      <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none -z-10" />
-      <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-0 end-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none -z-10" />
+      <div className="absolute bottom-0 start-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         <motion.div
@@ -85,7 +87,7 @@ export default function ProjectsSection() {
             <span className="tracking-widest font-bold">PORTFOLIO_ARCHIVE</span>
           </motion.div>
 
-          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 tracking-tight drop-shadow-sm flex items-center justify-center gap-4">
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-gray-500 mb-6 flex items-center justify-center gap-4 py-4 leading-[1.2]">
             {t("projects.title")}
           </h2>
 
@@ -146,14 +148,7 @@ export default function ProjectsSection() {
 
         <motion.div layout className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 lg:gap-10">
           <AnimatePresence mode="popLayout">
-            {filteredProjects.map((originalProject, index) => {
-              const project = {
-                ...originalProject,
-                title: originalProject.titleEn || originalProject.title,
-                description: originalProject.descriptionEn || originalProject.description,
-                longDescription: originalProject.longDescriptionEn || originalProject.longDescription,
-                category: t(`projects.${originalProject.categoryKey}`) || originalProject.category
-              };
+            {filteredProjects.map((project, index) => {
               return (
                 <motion.div
                   layout

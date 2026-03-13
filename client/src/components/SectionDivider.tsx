@@ -29,19 +29,19 @@ export default function SectionDivider() {
             />
 
             {/* ── Left dashes ── */}
-            <div className="absolute top-1/2 -translate-y-1/2 left-0 w-[calc(50%-60px)] flex items-center">
-                <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-blue-500/50 to-blue-500/70" />
+            <div className="absolute top-1/2 -translate-y-1/2 start-0 w-[calc(50%-60px)] flex items-center">
+                <div className="h-[1px] w-full bg-gradient-to-r rtl:bg-gradient-to-l from-transparent via-blue-500/50 to-blue-500/70" />
                 <div className="w-1.5 h-1.5 rounded-full bg-blue-500/70 shrink-0" />
             </div>
 
             {/* ── Right dashes ── */}
-            <div className="absolute top-1/2 -translate-y-1/2 right-0 w-[calc(50%-60px)] flex items-center">
+            <div className="absolute top-1/2 -translate-y-1/2 end-0 w-[calc(50%-60px)] flex items-center">
                 <div className="w-1.5 h-1.5 rounded-full bg-purple-500/70 shrink-0" />
-                <div className="h-[1px] w-full bg-gradient-to-l from-transparent via-purple-500/50 to-purple-500/70" />
+                <div className="h-[1px] w-full bg-gradient-to-l rtl:bg-gradient-to-r from-transparent via-purple-500/50 to-purple-500/70" />
             </div>
 
             {/* ── Centre ornament ── */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
+            <div className="absolute top-1/2 start-1/2 -translate-x-1/2 rtl:translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
 
                 {/* Outer pulse ring */}
                 <motion.div

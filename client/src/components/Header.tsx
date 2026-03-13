@@ -8,7 +8,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [, setLocation] = useLocation();
 
   useEffect(() => {
@@ -53,7 +53,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/80 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]" : "bg-transparent"
+        className={`fixed top-0 start-0 end-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/80 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.5)]" : "bg-transparent"
           }`}
         data-testid="header"
       >
@@ -64,24 +64,30 @@ export default function Header() {
               {mobileToggle}
             </div>
 
-            {/* Let's Talk Button - Left (Above Text) */}
+            {/* Language Toggle Button - Desktop */}
             <div className="hidden md:block">
               <button
-                onClick={() => handleNavClick("#contact")}
-                className="group relative flex items-center gap-2 px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full transition-all duration-500 hover:scale-105 hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] overflow-hidden"
+                onClick={() => i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar')}
+                className="group relative flex items-center gap-3 px-6 py-2.5 bg-white/5 hover:bg-white/10 border border-white/20 rounded-2xl transition-all duration-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(99,102,241,0.3)] overflow-hidden backdrop-blur-xl"
               >
-                {/* Glow effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Shiny Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                
+                {/* Dynamic Background Glow */}
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                {/* Pulse dot */}
-                <div className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                <div className="relative z-10 w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center border border-blue-500/20 transition-transform duration-500 group-hover:rotate-[360deg]">
+                  <i className="fas fa-language text-blue-400 text-lg"></i>
                 </div>
 
-                <span className="relative z-10 text-white font-semibold text-sm tracking-wide uppercase">Let's Talk</span>
+                <div className="relative z-10 flex flex-col items-start leading-none">
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-blue-400 font-bold mb-0.5 opacity-70">Language</span>
+                  <span className="text-white font-black text-sm tracking-wide">
+                    {i18n.language === 'ar' ? 'English' : 'العربية'}
+                  </span>
+                </div>
 
-                <i className="fas fa-arrow-right text-blue-400 text-xs transition-transform duration-300 group-hover:translate-x-1 relative z-10"></i>
+                <div className="relative z-10 ml-2 rtl:ml-0 rtl:mr-2 w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_8px_rgba(96,165,250,0.8)]" />
               </button>
             </div>
 
@@ -117,14 +123,14 @@ export default function Header() {
 
       {/* Side Drawer — slides from left for English */}
       <div
-        className={`fixed top-0 left-0 h-full w-80 max-w-[85vw] z-50 md:hidden transition-transform duration-500 ease-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        className={`fixed top-0 start-0 h-full w-80 max-w-[85vw] z-50 md:hidden transition-transform duration-500 ease-out ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full rtl:translate-x-full"
           }`}
         data-testid="mobile-menu"
       >
         {/* Gradient BG */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-950 backdrop-blur-2xl border-r border-white/10">
-          <div className="absolute top-20 -left-20 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute bottom-40 -right-20 w-60 h-60 bg-purple-600/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-gray-950 backdrop-blur-2xl border-e border-white/10">
+          <div className="absolute top-20 -start-20 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-40 -end-20 w-60 h-60 bg-purple-600/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
         </div>
 
         <div className="relative h-full flex flex-col">
@@ -134,7 +140,7 @@ export default function Header() {
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-blue-800 flex items-center justify-center shadow-lg shadow-blue-500/30">
                 <i className="fas fa-bars text-white text-lg"></i>
               </div>
-              <div className="text-left">
+              <div className="text-start">
                 <h3 className="text-white font-bold text-lg">{t("nav.menu")}</h3>
                 <p className="text-gray-400 text-xs">Navigation</p>
               </div>
@@ -147,6 +153,31 @@ export default function Header() {
             </button>
           </div>
 
+          {/* Quick Actions / Language - Mobile Toggle */}
+          <div className="px-6 py-4">
+            <button
+              onClick={() => {
+                i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar');
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full relative flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 group overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10 opacity-50" />
+              <div className="relative z-10 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/20 flex items-center justify-center border border-blue-500/30 group-hover:rotate-[360deg] transition-transform duration-700">
+                  <i className="fas fa-language text-blue-400 text-xl"></i>
+                </div>
+                <div className="text-start">
+                  <p className="text-gray-400 text-[10px] uppercase tracking-widest font-bold">{i18n.language === 'ar' ? 'Change to' : 'تغيير اللغة إلى'}</p>
+                  <p className="text-white font-black">{i18n.language === 'ar' ? 'English Language' : 'اللغة العربية'}</p>
+                </div>
+              </div>
+              <div className="relative z-10 px-3 py-1 rounded-full bg-blue-400/20 text-blue-400 text-[10px] font-bold border border-blue-400/30">
+                {i18n.language === 'ar' ? 'ENG' : 'ARA'}
+              </div>
+            </button>
+          </div>
+
           {/* Nav links */}
           <nav className="flex-1 overflow-y-auto p-6 space-y-2">
             {NAV_LINKS.map((link, index) => (
@@ -154,17 +185,19 @@ export default function Header() {
                 key={link.href}
                 onClick={() => handleNavClick(link.href)}
                 className={`group relative w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-base font-medium transition-all duration-300 overflow-hidden ${activeSection === link.href.slice(1)
-                  ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30 scale-105"
+                  ? "bg-gradient-to-r rtl:bg-gradient-to-l from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30 scale-105"
                   : "text-gray-300 hover:text-white hover:bg-white/5 hover:scale-105"
                   }`}
                 style={{
                   animationDelay: `${index * 100}ms`,
-                  animation: isMobileMenuOpen ? "slideInDrawer 0.5s ease-out forwards" : "none",
+                  animation: isMobileMenuOpen 
+                    ? (i18n.language === 'ar' ? "slideInDrawerRtl 0.5s ease-out forwards" : "slideInDrawer 0.5s ease-out forwards") 
+                    : "none",
                 }}
                 data-testid={`mobile-nav-link-${link.href.slice(1)}`}
               >
                 {activeSection !== link.href.slice(1) && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/0 via-blue-600/10 to-blue-600/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-r rtl:bg-gradient-to-l from-blue-600/0 via-blue-600/10 to-blue-600/0 -translate-x-full rtl:translate-x-full group-hover:translate-x-full rtl:group-hover:-translate-x-full transition-transform duration-700" />
                 )}
 
                 <div className={`relative w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ${activeSection === link.href.slice(1) ? "bg-white/20 shadow-inner" : "bg-white/5 group-hover:bg-white/10"
@@ -175,13 +208,13 @@ export default function Header() {
                   )}
                 </div>
 
-                <span className="relative z-10 flex-1 text-left">{t(`nav.${link.key || link.href.slice(1)}`)}</span>
+                <span className="relative z-10 flex-1 text-start">{t(`nav.${link.key || link.href.slice(1)}`)}</span>
 
-                <i className={`fas fa-chevron-right text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 ${activeSection === link.href.slice(1) ? "opacity-100" : ""
+                <i className={`fas fa-chevron-right rtl:fa-chevron-left text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 ${activeSection === link.href.slice(1) ? "opacity-100" : ""
                   }`}></i>
 
                 {activeSection === link.href.slice(1) && (
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-full shadow-lg shadow-white/50" />
+                  <div className="absolute start-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-white rounded-full shadow-lg shadow-white/50" />
                 )}
               </button>
             ))}
@@ -189,7 +222,7 @@ export default function Header() {
 
           {/* Drawer footer */}
           <div className="p-6 border-t border-white/10">
-            <div className="bg-gradient-to-r from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-2xl p-4 backdrop-blur-xl">
+            <div className="bg-gradient-to-r rtl:bg-gradient-to-l from-blue-600/10 to-purple-600/10 border border-blue-500/20 rounded-2xl p-4 backdrop-blur-xl">
               <div className="flex items-center gap-3 mb-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-lg shadow-green-500/50" />
                 <p className="text-white text-sm font-semibold">HSG Studio</p>
@@ -203,6 +236,13 @@ export default function Header() {
       <style>{`
         @keyframes slideInDrawer {
           from { opacity: 0; transform: translateX(-20px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        [dir="rtl"] .drawer-item-slide {
+          animation: slideInDrawerRtl 0.5s ease-out forwards;
+        }
+        @keyframes slideInDrawerRtl {
+          from { opacity: 0; transform: translateX(20px); }
           to   { opacity: 1; transform: translateX(0); }
         }
       `}</style>
